@@ -11,6 +11,9 @@ using System.Collections.Generic;
 /// </summary>
 public class SelectionBehavior : MonoBehaviour
 {
+	//Added by Tuukka
+	public Transform moveToObj;
+	
     private CamMovementBehavior camMovementBehavior;
     private MultiSelectToggle multiselect_toggle;
     private SelectionToggle selection_toggle;
@@ -207,16 +210,17 @@ public class SelectionBehavior : MonoBehaviour
                             {
                                 // Movement Formations created in this location. Edited by Tuukka.
                                 if (moveto_pos != previous_moveto_pos)
-                                    MainGridGenerator.CalculateNewPath(trans, moveto_pos, counter);
+                                    MainGridGenerator.CalculateNewPath(trans, moveto_pos, counter, moveToObj);
 
                                 UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(trans, counter++));
+								
                             }
                         }
                         else
                         {
 							int counter = 0;
                             if (moveto_pos != previous_moveto_pos)
-                                MainGridGenerator.CalculateNewPath(selectedTarget, moveto_pos, counter);
+                                MainGridGenerator.CalculateNewPath(selectedTarget, moveto_pos, counter, moveToObj);
 
                             UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(selectedTarget, 1));
                         }

@@ -18,10 +18,12 @@ using System.Collections.Generic;
 /// <remarks>For the grid to generate properly, at this time, slopes need to be parallel to either the x or z axis.</remarks>
 public class GridGenerator : MonoBehaviour
 {
+	//Added by Tuukka:
+	List<GridSquare> nearbySquares = new List<GridSquare>(); //Added by Tuukka. Used for keeping track of the calculated squares nearby in this class aswel.
+	
     GridSquareQuadrant[,] gridQuadrants;
     PathFinder pathFinder;
 	
-	List<GridSquare> nearbySquares = new List<GridSquare>(); //Added by Tuukka. Used for keeping track of the calculated squares nearby in this class aswel.
 
     RaycastHit raycastInfo = new RaycastHit();
 
@@ -422,7 +424,8 @@ public class GridGenerator : MonoBehaviour
     /// <param name="moveObj">The Unity3D Transform Object to Move.</param>
     /// <param name="final">The Final Position.</param>
     /// <param name="count">Selection number in the selected group.</param>
-    public void CalculateNewPath(Transform moveObj, Vector3 final, int count)
+    /// <param name="moveToObject">Move to indicator object.</param>
+    public void CalculateNewPath(Transform moveObj, Vector3 final, int count, Transform moveToObj)
     {
         int[] initsquare = DetermineGridCheckPoints(moveObj.position);
         int[] finalsquare = DetermineGridCheckPoints(final);
@@ -436,22 +439,32 @@ public class GridGenerator : MonoBehaviour
         if (somethingInSquares && count == 0)
 		{
             pathFinder.CalculateNewPath(moveObj, initGridSquare, finalGridSquare);
-
+			InstantiateMoveToIndicator(finalGridSquare,moveToObj);
 		}
 		
 		//Edited by Tuukka. For the rest of the units the final squares are the calculated nearby squares.
 		else if(somethingInSquares && count > 0)
 		{		
 			pathFinder.CalculateNewPath(moveObj, initGridSquare, nearbySquares[count -1]);			
-			
+			InstantiateMoveToIndicator(nearbySquares[count -1], moveToObj);
 		}
     }
 	
 	/// <summary>
+	/// Instantiates the move to indicator.</summary>
+	/// <param name="moveSquare">Target square.</param>
+	/// <param name="moveToObj">Indicator object.</param>
+	private void InstantiateMoveToIndicator(GridSquare moveSquare, Transform moveToObj)
+	{
+		Object o = Instantiate(moveToObj.gameObject, new Vector3(moveSquare.getGridSquareCentralOrigin().x, 3.2f, moveSquare.getGridSquareCentralOrigin().z), new Quaternion(0f,0f,0f,0f));
+		Destroy(o, 0.5f);
+	}
+	
+	/// <summary>
 	/// Call for the grid square to calculate the final squares nearby squares. Done by Tuukka.
 	/// </summary>
-	/// <param name="final">Coordinates of the move to position.
-	/// <param name="unitCount">Number of selected units for to calculate the squares.
+	/// <param name="final">Coordinates of the move to position.</param>
+	/// <param name="unitCount">Number of selected units for to calculate the squares.</param>
 	public void CalculateFinalSquaresNearbys(Vector3 final, int unitCount)
 	{
 		int[] finalsquare = DetermineGridCheckPoints(final);
@@ -904,7 +917,7 @@ public class GridGenerator : MonoBehaviour
 		/// <summary>
 		/// Calculates the nearby squares. Done by Tuukka.
 		/// </summary>
-		/// <param name="unitCount">Number of the selected units.
+		/// <param name="unitCount">Number of the selected units.</param>
 		public void calculateNearbySquares(int unitCount)
 		{
 			nearbySquares.Clear();
