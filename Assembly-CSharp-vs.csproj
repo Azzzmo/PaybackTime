@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{016E7630-085B-BC47-5686-AF6F5A0B82E9}</ProjectGuid>
+	<ProjectGuid>{A19278E2-6C6E-BCA7-B501-D53B3E6E8220}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -59,6 +59,8 @@
      <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\SelectedIndicatorBehavior.cs" />
      <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\SelectionBehavior.cs" />
      <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\SelectionToggle.cs" />
+     <Compile Include="Assets\TestStuff\Asmotest.cs" />
+     <Compile Include="Assets\TestStuff\tesmiscripti.cs" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />

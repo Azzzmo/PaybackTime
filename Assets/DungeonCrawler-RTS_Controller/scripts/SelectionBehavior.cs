@@ -194,23 +194,29 @@ public class SelectionBehavior : MonoBehaviour
                         moveto_pos.y += selectedTarget.transform.localScale.y;
 
                         selection_toggle.createSelectionToggle(moveto_pos, Quaternion.FromToRotation(Vector3.up, TargetCastInfo.normal));
-
+						
+						//Edited by Tuukka.
                         if (camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle))
                         {
                             int counter = 0;
+							
+							//Calculate the nearby sqaures of the moveto_pos for every selected unit.
+							MainGridGenerator.CalculateFinalSquaresNearbys(moveto_pos, multiselect_toggle.getCurrentlySelected().Count);
+							
                             foreach (Transform trans in multiselect_toggle.getCurrentlySelected())
                             {
-                                // Movement Formations created in this location
+                                // Movement Formations created in this location. Edited by Tuukka.
                                 if (moveto_pos != previous_moveto_pos)
-                                    MainGridGenerator.CalculateNewPath(trans, moveto_pos);
+                                    MainGridGenerator.CalculateNewPath(trans, moveto_pos, counter);
 
                                 UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(trans, counter++));
                             }
                         }
                         else
                         {
+							int counter = 0;
                             if (moveto_pos != previous_moveto_pos)
-                                MainGridGenerator.CalculateNewPath(selectedTarget, moveto_pos);
+                                MainGridGenerator.CalculateNewPath(selectedTarget, moveto_pos, counter);
 
                             UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(selectedTarget, 1));
                         }

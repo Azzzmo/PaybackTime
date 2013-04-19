@@ -20,6 +20,8 @@ public class GridGenerator : MonoBehaviour
 {
     GridSquareQuadrant[,] gridQuadrants;
     PathFinder pathFinder;
+	
+	List<GridSquare> nearbySquares = new List<GridSquare>(); //Added by Tuukka. Used for keeping track of the calculated squares nearby in this class aswel.
 
     RaycastHit raycastInfo = new RaycastHit();
 
@@ -293,7 +295,7 @@ public class GridGenerator : MonoBehaviour
     /// <param name="row">The Row</param>
     /// <param name="col">The Column</param>
     /// <returns>Amount of empty adjacent GridSquares</returns>
-    private int DetermineEmptyAdjacentCount(int row, int col)
+    public int DetermineEmptyAdjacentCount(int row, int col)
     {
         int[] rows = { row - 1, row, row + 1 };
         int[] cols = { col - 1, col, col + 1 };
@@ -419,14 +421,51 @@ public class GridGenerator : MonoBehaviour
     /// </summary>
     /// <param name="moveObj">The Unity3D Transform Object to Move.</param>
     /// <param name="final">The Final Position.</param>
-    public void CalculateNewPath(Transform moveObj, Vector3 final)
+    /// <param name="count">Selection number in the selected group.</param>
+    public void CalculateNewPath(Transform moveObj, Vector3 final, int count)
     {
         int[] initsquare = DetermineGridCheckPoints(moveObj.position);
         int[] finalsquare = DetermineGridCheckPoints(final);
+		
+		bool somethingInSquares = initsquare[0] != -1 && initsquare[1] != -1 && finalsquare[0] != -1 && finalsquare[1] != -1;
+		
+		GridSquare initGridSquare = getDesiredGridSquare(initsquare[0], initsquare[1]);
+		GridSquare finalGridSquare = getDesiredGridSquare(finalsquare[0], finalsquare[1]);
+		
+		//Edited by Tuukka. For the first unit in the group the final square is the same as the clicked one.
+        if (somethingInSquares && count == 0)
+		{
+            pathFinder.CalculateNewPath(moveObj, initGridSquare, finalGridSquare);
 
-        if (initsquare[0] != -1 && initsquare[1] != -1 && finalsquare[0] != -1 && finalsquare[1] != -1)
-            pathFinder.CalculateNewPath(moveObj, getDesiredGridSquare(initsquare[0], initsquare[1]), getDesiredGridSquare(finalsquare[0], finalsquare[1]));
+		}
+		
+		//Edited by Tuukka. For the rest of the units the final squares are the calculated nearby squares.
+		else if(somethingInSquares && count > 0)
+		{		
+			pathFinder.CalculateNewPath(moveObj, initGridSquare, nearbySquares[count -1]);			
+			
+		}
     }
+	
+	/// <summary>
+	/// Call for the grid square to calculate the final squares nearby squares. Done by Tuukka.
+	/// </summary>
+	/// <param name="final">Coordinates of the move to position.
+	/// <param name="unitCount">Number of selected units for to calculate the squares.
+	public void CalculateFinalSquaresNearbys(Vector3 final, int unitCount)
+	{
+		int[] finalsquare = DetermineGridCheckPoints(final);
+		bool somethingInSquare = finalsquare[0] != -1 && finalsquare[1] != -1;
+		
+		GridSquare finalGridSquare = getDesiredGridSquare(finalsquare[0], finalsquare[1]);
+		
+		if(somethingInSquare)
+		{
+			finalGridSquare.calculateNearbySquares(unitCount);
+			nearbySquares = finalGridSquare.getNearbySquares();
+		}
+	}
+	
 
     /// <summary>
     /// Retrieves a GridSquare from a specific Row and Column.
@@ -791,6 +830,7 @@ public class GridGenerator : MonoBehaviour
         int[] quadrant;
         Vector3[] positions = new Vector3[4]; // { LowerLeft, LowerRight, UpperLeft, UpperRight }
         List<GridSquare> adjacentSquares = new List<GridSquare>();
+		List<GridSquare> nearbySquares = new List<GridSquare>(); //Added by Tuukka. Used for keeping track of the calculated nearby squares.
         
         int f_val, g_val, h_val = 0;
         GridSquare parentSquare = null;
@@ -860,6 +900,61 @@ public class GridGenerator : MonoBehaviour
                 }
             }
         }
+		
+		/// <summary>
+		/// Calculates the nearby squares. Done by Tuukka.
+		/// </summary>
+		/// <param name="unitCount">Number of the selected units.
+		public void calculateNearbySquares(int unitCount)
+		{
+			nearbySquares.Clear();
+			
+			int count = 0;
+			int newRow = row;
+			int newCol = col;
+			
+			int accidentalChange = -1;
+			int countChange = 1;
+			
+			while(nearbySquares.Count < unitCount)
+			{
+				for(int i = 0; i < countChange; i++)
+				{
+					newRow += accidentalChange;
+					
+					GridSquare nearby = DeterminedValidAdjacent(newRow, newCol);
+                    if (nearby != null)
+					{
+						count++;
+						
+						if(count % 2 == 0)
+                    		nearbySquares.Add(nearby);
+					}
+				}
+				
+				if(nearbySquares.Count >= unitCount)
+					break;
+				
+				accidentalChange = accidentalChange * -1;
+				
+				for(int j = 0; j < countChange; j++)
+				{
+					newCol += accidentalChange;
+					
+					GridSquare nearby = DeterminedValidAdjacent(newRow, newCol);
+                    {
+						count++;
+						
+						if(count % 2 == 0)
+                    		nearbySquares.Add(nearby);
+					}
+				}
+				
+				countChange++;
+			}
+
+			print("nearby count: " + nearbySquares.Count);
+		}
 
         /// <summary>
         /// Allows retrieval and setting of the ParentSquare of this GridSquare.
@@ -1021,5 +1116,24 @@ public class GridGenerator : MonoBehaviour
         {
             return adjacentSquares;
         }
+		
+		/// <summary>
+		/// Gets the nearby squares. Done by Tuukka.
+		/// </summary>
+		/// <returns>List of the nearby squares.
+		public List<GridSquare> getNearbySquares()
+        {
+            return nearbySquares;
+        }
+		
+		/// <summary>
+		/// Gets the number of nearby squares. Done by Tuukka.
+		/// </summary>
+		/// <returns>int	
+		public int getNumOfNearby()
+		{
+			return nearbySquares.Count;
+		}
+
     }
 }
