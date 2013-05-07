@@ -44,6 +44,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\2D Art\DeleteThis0.cs" />
+     <Compile Include="Assets\Animations\DeleteThis1.cs" />
+     <Compile Include="Assets\Data tables\DeleteThis2.cs" />
+     <Compile Include="Assets\GUI\DeleteThis3.cs" />
+     <Compile Include="Assets\Particle effects\DeleteThis4.cs" />
+     <Compile Include="Assets\Resources\DeleteThis5.cs" />
+     <Compile Include="Assets\Scenes\DeleteThis6.cs" />
      <Compile Include="Assets\Scripts\CamMovementBehavior.cs" />
      <Compile Include="Assets\Scripts\CharacterMotor.cs" />
      <Compile Include="Assets\Scripts\ControlObjHandler.cs" />
@@ -62,8 +69,27 @@
      <Compile Include="Assets\Scripts\SelectedIndicatorBehavior.cs" />
      <Compile Include="Assets\Scripts\SelectionBehavior.cs" />
      <Compile Include="Assets\Scripts\SelectionToggle.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Common\Actor.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Common\Global.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Common\NodePath.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Common\PathFinding.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Common\ShootParameters.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Common\StateManager.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Engine\Enemy.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Engine\Protagonist.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Engine\Shoot.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Engine\World.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Engine\_Interface\cInterface.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Engine\_Screens\cScreenLose.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Engine\_Screens\cScreenWin.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Engine\cCamera.cs" />
+     <Compile Include="Assets\Scripts\srcAI\Menus\MenuMain\MenuMainScript.cs" />
+     <Compile Include="Assets\Sounds\DeleteThis7.cs" />
+     <Compile Include="Assets\Terrain\DeleteThis8.cs" />
      <Compile Include="Assets\TestStuff\Asmotest.cs" />
      <Compile Include="Assets\TestStuff\tesmiscripti.cs" />
+     <Compile Include="Assets\Textures\DeleteThis9.cs" />
+     <Compile Include="Assets\Video\DeleteThis10.cs" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
