@@ -37,10 +37,10 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -48,9 +48,7 @@
      <Compile Include="Assets\Animations\DeleteThis1.cs" />
      <Compile Include="Assets\Data tables\DeleteThis2.cs" />
      <Compile Include="Assets\GUI\DeleteThis3.cs" />
-     <Compile Include="Assets\Particle effects\DeleteThis4.cs" />
      <Compile Include="Assets\Resources\DeleteThis5.cs" />
-     <Compile Include="Assets\Scenes\DeleteThis6.cs" />
      <Compile Include="Assets\Scripts\CamMovementBehavior.cs" />
      <Compile Include="Assets\Scripts\CharacterMotor.cs" />
      <Compile Include="Assets\Scripts\ControlObjHandler.cs" />
@@ -85,12 +83,12 @@
      <Compile Include="Assets\Scripts\srcAI\Engine\cCamera.cs" />
      <Compile Include="Assets\Scripts\srcAI\Menus\MenuMain\MenuMainScript.cs" />
      <Compile Include="Assets\Sounds\DeleteThis7.cs" />
-     <Compile Include="Assets\Terrain\DeleteThis8.cs" />
      <Compile Include="Assets\TestStuff\Asmotest.cs" />
      <Compile Include="Assets\TestStuff\tesmiscripti.cs" />
-     <Compile Include="Assets\Textures\DeleteThis9.cs" />
      <Compile Include="Assets\Video\DeleteThis10.cs" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
+     <None Include="Assets\Particle effects\Unity Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
+     <None Include="Assets\Textures\Skyboxes\Skyboxes\_skybox info.txt" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />

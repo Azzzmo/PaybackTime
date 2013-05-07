@@ -37,16 +37,19 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Particle effects\Unity Particles\Legacy Particles\TimedObjectDestructor.js" />
      <Compile Include="Assets\Scripts\ThirdPersonCamera.js" />
      <Compile Include="Assets\Scripts\ThirdPersonController.js" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
+     <None Include="Assets\Particle effects\Unity Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
+     <None Include="Assets\Textures\Skyboxes\Skyboxes\_skybox info.txt" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
