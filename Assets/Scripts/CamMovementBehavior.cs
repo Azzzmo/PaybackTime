@@ -41,7 +41,7 @@ public class CamMovementBehavior : MonoBehaviour
     /// <summary>
     /// The Key that will Initiate Camera Following when Selecting a ControlObjHandler.
     /// </summary>
-    public KeyCode FollowToggleKey = KeyCode.Space;
+    public KeyCode FollowToggleKey = KeyCode.G;
 
     /// <summary>
     /// The LayerMask to Exclude when Casting Rays.
@@ -114,8 +114,9 @@ public class CamMovementBehavior : MonoBehaviour
             DoDefaultCameraBehavior();
         else
         {
+			//Edited by Tuukka. Removed the option of the camera to follow in RTS view.
             if (follow_toggle)
-            {
+            {/*
                 if (!selectionBehavior.SimilarSelected)
                 {
                     this.transform.position = CalculateNewMoveToPosition(transform.position, selectedTarget.position, (MaxZoomDistance - zoom_distance));
@@ -135,7 +136,7 @@ public class CamMovementBehavior : MonoBehaviour
                 {
                     selectionBehavior.SimilarSelected = false;
                     followcam_delay_counter = 0.0f;
-                }
+                }*/
             }
             else // this happens only when a ControlObject is selected but not actively being followed
             {
@@ -207,7 +208,7 @@ public class CamMovementBehavior : MonoBehaviour
         if (Input.GetKey(KeyCode.A) || (ActiveScrolling && (!KeyMovementOverride && Input.mousePosition.x < ScreenMovementBuffer)))
         {
             this.transform.position += transform.right * -(MoveToSpeed * Time.deltaTime * 60);
-            follow_toggle = false;
+            //follow_toggle = false;
             TargetPositionCalculated = false;
 
             if (!KeyMovementOverride && selectionBehavior.MouseDirections != null && Input.mousePosition.x < ScreenMovementBuffer)
@@ -216,7 +217,7 @@ public class CamMovementBehavior : MonoBehaviour
         else if (Input.GetKey(KeyCode.D) || (ActiveScrolling && (!KeyMovementOverride && Input.mousePosition.x > Screen.width - ScreenMovementBuffer)))
         {
             this.transform.position += transform.right * (MoveToSpeed * Time.deltaTime * 60);
-            follow_toggle = false;
+            //follow_toggle = false;
             TargetPositionCalculated = false;
 
             if (!KeyMovementOverride && selectionBehavior.MouseDirections != null && Input.mousePosition.x > Screen.width - ScreenMovementBuffer)
@@ -226,7 +227,7 @@ public class CamMovementBehavior : MonoBehaviour
         if (Input.GetKey(KeyCode.W) || (ActiveScrolling && (!KeyMovementOverride && Input.mousePosition.y > Screen.height - ScreenMovementBuffer)))
         {
             this.transform.position += (Vector3.Cross(Vector3.up, -transform.right)) * (MoveToSpeed * Time.deltaTime * 60);
-            follow_toggle = false;
+            //follow_toggle = false;
             TargetPositionCalculated = false;
 
             if (!KeyMovementOverride && selectionBehavior.MouseDirections != null && Input.mousePosition.y > Screen.height - ScreenMovementBuffer)
@@ -243,7 +244,7 @@ public class CamMovementBehavior : MonoBehaviour
         {
             //this.transform.position += Vector3.forward * -( Time.deltaTime);
             this.transform.position += (Vector3.Cross(Vector3.up, -transform.right)) * -(MoveToSpeed * Time.deltaTime * 60);
-            follow_toggle = false;
+            //follow_toggle = false;
             TargetPositionCalculated = false;
 
             if (!KeyMovementOverride && selectionBehavior.MouseDirections != null && Input.mousePosition.y < ScreenMovementBuffer)
@@ -265,12 +266,50 @@ public class CamMovementBehavior : MonoBehaviour
         {
             angle_between += RotateSpeed * Time.deltaTime;
         }
-
-        if (selected != null && (Input.GetKeyDown(FollowToggleKey) && !follow_toggle))
-        {
+		
+		//Edited by Tuukka. Added the 3rd person view.
+        if (selected != null && (Input.GetKeyDown(FollowToggleKey)))
+        {/*
             follow_toggle = true;
             BetweenAngleCalculated = false;
-            cam_range_time = 0;
+            cam_range_time = 0;*/
+			
+			//Finds the 3rd person camera of the selected character.
+			Transform cam = selected.FindChild("Character Camera");
+			
+			//Not already in 3rd person view.
+			if(!follow_toggle && cam != null)
+			{	
+				//Activate the 3rd person camera and the controlls.
+				cam.gameObject.SetActive(true);
+				selected.gameObject.GetComponent<MouseLook>().enabled = true;
+				//selected.gameObject.GetComponent<FPSInputController>().enabled = true;
+				//selected.gameObject.GetComponent<CharacterMotor>().canControl = true;
+				
+				follow_toggle = true;
+			}
+			
+			//The opposite thing.
+			else if(follow_toggle && cam != null)
+			{
+				cam.gameObject.SetActive(false);
+				selected.gameObject.GetComponent<MouseLook>().enabled = false;
+				//selected.gameObject.GetComponent<FPSInputController>().enabled = false;
+				//selected.gameObject.GetComponent<CharacterMotor>().canControl = false;
+				
+				//Returns the main camera to the character in the rts view.
+				this.transform.position = CalculateNewMoveToPosition(transform.position, selected.position, (MaxZoomDistance - zoom_distance));
+
+                    // look towards the selected target
+                    look_rotation = Quaternion.LookRotation(selected.position - transform.position);
+
+                    if (!SteeperAngle)
+                        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.Euler(35.264f, look_rotation.eulerAngles.y, 0), RotateSpeed);
+                    else
+                        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.Euler(45, look_rotation.eulerAngles.y, 0), RotateSpeed);
+				
+				follow_toggle = false;
+			}
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))

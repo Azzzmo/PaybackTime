@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{273F5E78-9B11-9A5E-FF79-2489C701A99F}</ProjectGuid>
+	<ProjectGuid>{A19278E2-6C6E-BCA7-B501-D53B3E6E8220}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -44,21 +44,24 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\CamMovementBehavior.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\ControlObjHandler.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\CreatureHandler.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\FormationSwitches.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\GUIController.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\GameBarSystem\HealthSystem.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\GameBarSystem\ScrollBarEssentials.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\GridGenerator.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\GridRenderer.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\MultiSelectToggle.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\NPCHandler.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\PathFinder.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\SelectedIndicatorBehavior.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\SelectionBehavior.cs" />
-     <Compile Include="Assets\DungeonCrawler-RTS_Controller\scripts\SelectionToggle.cs" />
+     <Compile Include="Assets\Scripts\CamMovementBehavior.cs" />
+     <Compile Include="Assets\Scripts\CharacterMotor.cs" />
+     <Compile Include="Assets\Scripts\ControlObjHandler.cs" />
+     <Compile Include="Assets\Scripts\CreatureHandler.cs" />
+     <Compile Include="Assets\Scripts\FPSInputController.cs" />
+     <Compile Include="Assets\Scripts\FormationSwitches.cs" />
+     <Compile Include="Assets\Scripts\GUIController.cs" />
+     <Compile Include="Assets\Scripts\GameBarSystem\HealthSystem.cs" />
+     <Compile Include="Assets\Scripts\GameBarSystem\ScrollBarEssentials.cs" />
+     <Compile Include="Assets\Scripts\GridGenerator.cs" />
+     <Compile Include="Assets\Scripts\GridRenderer.cs" />
+     <Compile Include="Assets\Scripts\MouseLook.cs" />
+     <Compile Include="Assets\Scripts\MultiSelectToggle.cs" />
+     <Compile Include="Assets\Scripts\NPCHandler.cs" />
+     <Compile Include="Assets\Scripts\PathFinder.cs" />
+     <Compile Include="Assets\Scripts\SelectedIndicatorBehavior.cs" />
+     <Compile Include="Assets\Scripts\SelectionBehavior.cs" />
+     <Compile Include="Assets\Scripts\SelectionToggle.cs" />
      <Compile Include="Assets\TestStuff\Asmotest.cs" />
      <Compile Include="Assets\TestStuff\tesmiscripti.cs" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />

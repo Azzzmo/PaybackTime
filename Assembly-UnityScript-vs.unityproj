@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{A19278E2-6C6E-BCA7-B501-D53B3E6E8220}</ProjectGuid>
+	<ProjectGuid>{05C114AB-5E7E-0260-7167-2D43AB6B500B}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,26 +44,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\CamMovementBehavior.cs" />
-     <Compile Include="Assets\Scripts\CharacterMotor.cs" />
-     <Compile Include="Assets\Scripts\ControlObjHandler.cs" />
-     <Compile Include="Assets\Scripts\CreatureHandler.cs" />
-     <Compile Include="Assets\Scripts\FPSInputController.cs" />
-     <Compile Include="Assets\Scripts\FormationSwitches.cs" />
-     <Compile Include="Assets\Scripts\GUIController.cs" />
-     <Compile Include="Assets\Scripts\GameBarSystem\HealthSystem.cs" />
-     <Compile Include="Assets\Scripts\GameBarSystem\ScrollBarEssentials.cs" />
-     <Compile Include="Assets\Scripts\GridGenerator.cs" />
-     <Compile Include="Assets\Scripts\GridRenderer.cs" />
-     <Compile Include="Assets\Scripts\MouseLook.cs" />
-     <Compile Include="Assets\Scripts\MultiSelectToggle.cs" />
-     <Compile Include="Assets\Scripts\NPCHandler.cs" />
-     <Compile Include="Assets\Scripts\PathFinder.cs" />
-     <Compile Include="Assets\Scripts\SelectedIndicatorBehavior.cs" />
-     <Compile Include="Assets\Scripts\SelectionBehavior.cs" />
-     <Compile Include="Assets\Scripts\SelectionToggle.cs" />
-     <Compile Include="Assets\TestStuff\Asmotest.cs" />
-     <Compile Include="Assets\TestStuff\tesmiscripti.cs" />
+     <Compile Include="Assets\Scripts\ThirdPersonCamera.js" />
+     <Compile Include="Assets\Scripts\ThirdPersonController.js" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
