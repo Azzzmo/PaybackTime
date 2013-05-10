@@ -49,11 +49,15 @@
      <Compile Include="Assets\Scripts\ThirdPersonController.js" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\Particle effects\Unity Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
+     <None Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
      <None Include="Assets\Textures\Skyboxes\Skyboxes\_skybox info.txt" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
+     <None Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Sources\Shaders\FX-Water.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\readme.txt" />
+     <None Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
+     <None Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Shaders\VertexColorUnlit.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

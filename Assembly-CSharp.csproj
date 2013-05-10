@@ -45,7 +45,16 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\2D Art\DeleteThis0.cs" />
+     <Compile Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Sources\Scripts\Water.cs" />
+     <Compile Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Scripts\Displace.cs" />
+     <Compile Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Scripts\GerstnerDisplace.cs" />
+     <Compile Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Scripts\MeshContainer.cs" />
+     <Compile Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Scripts\PlanarReflection.cs" />
+     <Compile Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Scripts\SpecularLighting.cs" />
+     <Compile Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Scripts\WaterBase.cs" />
+     <Compile Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Scripts\WaterTile.cs" />
      <Compile Include="Assets\Animations\DeleteThis1.cs" />
+     <Compile Include="Assets\CharacterAnimation.cs" />
      <Compile Include="Assets\Data tables\DeleteThis2.cs" />
      <Compile Include="Assets\GUI\DeleteThis3.cs" />
      <Compile Include="Assets\Resources\DeleteThis5.cs" />
@@ -88,11 +97,15 @@
      <Compile Include="Assets\Video\DeleteThis10.cs" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\Particle effects\Unity Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
+     <None Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
      <None Include="Assets\Textures\Skyboxes\Skyboxes\_skybox info.txt" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
+     <None Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Sources\Shaders\FX-Water.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\readme.txt" />
+     <None Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
+     <None Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
      <None Include="Assets\DungeonCrawler-RTS_Controller\Standard Assets\Shaders\VertexColorUnlit.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
