@@ -1,3 +1,5 @@
+//
+
 using UnityEngine;
 using System.Collections;
 
@@ -5,7 +7,14 @@ public class CharacterAnimation : MonoBehaviour {
 	
 	public float vAxis; 
 	public float hAxis;
-	
+	private CharacterController controller;
+	private Animation theanimation;
+	private float previous_control_x = 0f;
+	private float previous_control_z = 0f;
+	public float animationSpeed = 0.9f;
+	private Transform cam;
+	public bool isControlled;
+
 	
 	enum animState
 	{
@@ -17,43 +26,91 @@ public class CharacterAnimation : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		animation.Play("idle");
+		mystate = animState.Idle;
+		
+		controller = GetComponentInChildren<CharacterController>(); //assume there's a character controller
+		theanimation = GetComponentInChildren<Animation>(); //assume there's an animation component
+		
+		//if gameobject has a "Character Camera" enabled, the object is being controlled by keyboard
+		cam = transform.FindChild("Character Camera");
+			
+		theanimation.Play("idle");
+		
+		if(controller != null)
+			Debug.Log ("got controller");
+		if(theanimation != null)
+			Debug.Log ("got animation");
+		if(cam != null)
+			Debug.Log ("got Cam");
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		if(cam != null && cam.gameObject.activeSelf)
+			isControlled = true;
+		else 
+			isControlled = false;
 		
-		vAxis = Input.GetAxisRaw("Vertical");
-		hAxis = Input.GetAxisRaw("Horizontal");
+		//if object is being controlled by input, set axis values accordingly
+		if(isControlled == true)
+		{
+			//get input axis values
+			vAxis = Input.GetAxisRaw("Vertical");
+			hAxis = Input.GetAxisRaw("Horizontal");
+			Debug.Log ("is controlled");
+		}else{
+			vAxis = 0f;
+			hAxis = 0f;
+			Debug.Log ("not controlled");
+		}
 		
+		//set animation state based on input axis values
 		if(vAxis > 0)
 			mystate = animState.Walking;
 		else if (vAxis < 0)
 			mystate = animState.Reversing;
+		else if(hAxis < 0 || hAxis > 0)
+			mystate = animState.Sidestepping;
 		else if(vAxis == 0 || hAxis == 0)
 			mystate = animState.Idle;
-		else if(hAxis > 0 || hAxis < 0)
+		
+		//if controller has moved due to outside control, set animation state accordingly
+ 		if((controller.transform.position.x != previous_control_x || controller.transform.position.z != previous_control_z) && isControlled == false )
+		{
 			mystate = animState.Walking;
-		else
-			mystate = animState.Idle;
+			//Debug.Log("control object moving");
+		}
+		
+		Debug.Log (mystate.ToString());
 		
 		switch (mystate) {
-		case animState.Idle: animation.Play("idle");
+		case animState.Idle: theanimation.Play("idle");
+			theanimation["idle"].speed = animationSpeed;
 			break;
-		case animState.Walking: animation.Play("walk");
+		case animState.Walking: theanimation.CrossFade ("walk");
+			theanimation["walk"].speed = animationSpeed;
 			break;
-		case animState.Reversing: animation.Play ("walk");
-			animation["walk"].speed = -1;
+		case animState.Reversing: theanimation.CrossFade("walk");
+			theanimation["walk"].speed = -1 * animationSpeed;
+			break; 
+		case animState.Running: theanimation.CrossFade ("run");
+			theanimation["run"].speed = animationSpeed;
 			break;
-		case animState.Running: animation.Play ("run");
+		case animState.Sidestepping: theanimation.CrossFade ("walk");
+			theanimation["walk"].speed = animationSpeed;
 			break;
-		case animState.Sidestepping: animation.Play ("jump_pose");	
-			break;
-		default: animation.Play ("idle");
+		default: theanimation.Play ("idle");
+			theanimation["idle"].speed = animationSpeed;
 			break;
 		}
 
 		
+		//record current position for next round to check if it has changed between rounds
+		previous_control_x = controller.transform.position.x;
+		previous_control_z = controller.transform.position.z;
+		
 	}
+	
+
 }
