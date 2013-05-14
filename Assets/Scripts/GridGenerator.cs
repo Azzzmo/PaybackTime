@@ -284,6 +284,9 @@ public class GridGenerator : MonoBehaviour
         pathFinder = new PathFinder(this);
         //previousSquare = getDesiredGridSquare(0, 0);
         //DetermineGridCheckPoints(new Vector3(560, 0, 795));
+		
+		//Added by Tuukka. Generates the correct needed grid for the enemy ai aswel so that they can find paths around obstacles.
+		PathFinding.InitPathfinding(Rows, Columns, this.transform.position.x, this.transform.position.z, GridWidth, GridDepth);
 	}
 
     private void Update()

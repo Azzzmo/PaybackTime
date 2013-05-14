@@ -137,6 +137,9 @@ public class CamMovementBehavior : MonoBehaviour
                     selectionBehavior.SimilarSelected = false;
                     followcam_delay_counter = 0.0f;
                 }*/
+				
+				//hides the health bar somehow..
+				this.transform.position = new Vector3(selectedTarget.transform.position.x, this.transform.position.y, selectedTarget.transform.position.z);
             }
             else // this happens only when a ControlObject is selected but not actively being followed
             {
@@ -268,12 +271,12 @@ public class CamMovementBehavior : MonoBehaviour
         }
 		
 		//Edited by Tuukka. Added the 3rd person view.
-        if (selected != null && (Input.GetKeyDown(FollowToggleKey)))
+        if (selected != null && (Input.GetKeyDown(FollowToggleKey)) && selectionBehavior.multiselect_toggle.getCurrentlySelected().Count < 2)
         {/*
             follow_toggle = true;
             BetweenAngleCalculated = false;
             cam_range_time = 0;*/
-			
+						
 			//Finds the 3rd person camera of the selected character.
 			Transform cam = selected.FindChild("Character Camera");
 			

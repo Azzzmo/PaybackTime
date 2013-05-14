@@ -91,6 +91,8 @@ public class Enemy :  Actor
 			Goal = protagonistModel;
 		}
 		
+		print (Goal);
+		
 		// READ WAYPOINTS
 		if (m_waypointsWorld!=null)
 		{

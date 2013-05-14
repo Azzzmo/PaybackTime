@@ -15,7 +15,8 @@ public class SelectionBehavior : MonoBehaviour
 	public Transform moveToObj;
 	
     private CamMovementBehavior camMovementBehavior;
-    private MultiSelectToggle multiselect_toggle;
+	//Edited by Tuukka
+    public MultiSelectToggle multiselect_toggle;
     private SelectionToggle selection_toggle;
 
     private RaycastHit TargetCastInfo;
@@ -121,115 +122,124 @@ public class SelectionBehavior : MonoBehaviour
 
     void Update()
     {
-        if (!camMovementBehavior.isMouseMovement() && activeCursorGfx != mouseCursor[0])
-        {
-            if (mouseCursor[0] != null)
-                activeCursorGfx = mouseCursor[0];
-            else
-                activeCursorGfx = null;
-        }
-
-        Ray ray = camera.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-
-        if (Physics.Raycast(ray, out TargetCastInfo))
-        {
-            if (Input.GetMouseButtonUp(0))
-            {
-                if (TargetCastInfo.transform != null)
-                {
-                    if (TargetCastInfo.transform.name.Contains(ControlAssetName))
-                    {
-                        if (camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle) && !Input.GetKey(AddAdditionalKey))
-                            multiselect_toggle.ClearSelectedTargets();
-
-                        ChangeSelectedTarget(TargetCastInfo.transform);
-                    }
-
-                    if (TargetCastInfo.transform.name.Contains(CreatureAssetName) || TargetCastInfo.transform.name.Contains(NPCAssetName))
-                    {
-                        // de-init last active_target's data
-                        if (activeTarget != null)
-                        {
-                            if (activeTarget.name.Contains(NPCAssetName))
-                            {
-                                NPCHandler npc_handler = activeTarget.GetComponent<NPCHandler>();
-                                npc_handler.setActiveTarget(false);
-                            }
-                            else if (activeTarget.name.Contains(CreatureAssetName))
-                            {
-                                CreatureHandler creature_handler = activeTarget.GetComponent<CreatureHandler>();
-                                creature_handler.setActiveTarget(false);
-                            }
-
-                            activeTarget.FindChild("SelectedIndicator").gameObject.SetActive(false);
-                        }
-
-                        activeTarget = TargetCastInfo.transform;
-
-                        activeTarget.FindChild("SelectedIndicator").gameObject.SetActive(true);
-
-                        if (activeTarget.name.Contains(NPCAssetName))
-                        {
-                            NPCHandler npc_handler = activeTarget.GetComponent<NPCHandler>();
-                            npc_handler.setActiveTarget(true);
-                        }
-                        else
-                        {
-                            CreatureHandler creature_handler = activeTarget.GetComponent<CreatureHandler>();
-                            creature_handler.setActiveTarget(true);
-                        }
-                    }
-                }
-            }
-        }
-
-        // a target is selected
-        if (selectedTarget != null)
-        {
-            if (TargetCastInfo.transform != null)
-            {
-                // left mouse button pressed
-                if ((multiselect_toggle.isMovementAllowed() && (Input.GetMouseButtonUp(0) && camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle)) || (Input.GetMouseButton(0) && camMovementBehavior.ControllerToggleType.Equals(ControllerType.DungeonCrawlerToggle))))
-                {
-                    if (selectedTarget.name.Contains(ControlAssetName) && !TargetCastInfo.transform.name.Contains(ControlAssetName))
-                    {
-                        moveto_pos = TargetCastInfo.point;
-                        moveto_pos.y += selectedTarget.transform.localScale.y;
-
-                        selection_toggle.createSelectionToggle(moveto_pos, Quaternion.FromToRotation(Vector3.up, TargetCastInfo.normal));
-						
-						//Edited by Tuukka.
-                        if (camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle))
-                        {
-                            int counter = 0;
+		//Cannot do commanding in the 3rd person view. Edited by Tuukka.
+		if(!camMovementBehavior.isFollowToggle())
+		{
+	        if (!camMovementBehavior.isMouseMovement() && activeCursorGfx != mouseCursor[0])
+	        {
+	            if (mouseCursor[0] != null)
+	                activeCursorGfx = mouseCursor[0];
+	            else
+	                activeCursorGfx = null;
+	        }
+	
+	        Ray ray = camera.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+	
+	        if (Physics.Raycast(ray, out TargetCastInfo))
+	        {
+	            if (Input.GetMouseButtonUp(0))
+	            {
+	                if (TargetCastInfo.transform != null)
+	                {
+	                    if (TargetCastInfo.transform.name.Contains(ControlAssetName))
+	                    {
+	                        if (camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle) && !Input.GetKey(AddAdditionalKey))
+	                            multiselect_toggle.ClearSelectedTargets();
+	
+	                        ChangeSelectedTarget(TargetCastInfo.transform);
+	                    }
+	
+	                    if (TargetCastInfo.transform.name.Contains(CreatureAssetName) || TargetCastInfo.transform.name.Contains(NPCAssetName))
+	                    {
+	                        // de-init last active_target's data
+	                        if (activeTarget != null)
+	                        {
+	                            if (activeTarget.name.Contains(NPCAssetName))
+	                            {
+	                                NPCHandler npc_handler = activeTarget.GetComponent<NPCHandler>();
+	                                npc_handler.setActiveTarget(false);
+	                            }
+	                            else if (activeTarget.name.Contains(CreatureAssetName))
+	                            {
+	                                CreatureHandler creature_handler = activeTarget.GetComponent<CreatureHandler>();
+	                                creature_handler.setActiveTarget(false);
+	                            }
+	
+	                            activeTarget.FindChild("SelectedIndicator").gameObject.SetActive(false);
+	                        }
+	
+	                        activeTarget = TargetCastInfo.transform;
+	
+	                        activeTarget.FindChild("SelectedIndicator").gameObject.SetActive(true);
+	
+	                        if (activeTarget.name.Contains(NPCAssetName))
+	                        {
+	                            NPCHandler npc_handler = activeTarget.GetComponent<NPCHandler>();
+	                            npc_handler.setActiveTarget(true);
+	                        }
+	                        else
+	                        {
+	                            CreatureHandler creature_handler = activeTarget.GetComponent<CreatureHandler>();
+	                            creature_handler.setActiveTarget(true);
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	
+	        // a target is selected
+	        if (selectedTarget != null)
+	        {
+	            if (TargetCastInfo.transform != null)
+	            {
+	                // left mouse button pressed
+	                if ((multiselect_toggle.isMovementAllowed() && (Input.GetMouseButtonUp(0) && camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle)) || (Input.GetMouseButton(0) && camMovementBehavior.ControllerToggleType.Equals(ControllerType.DungeonCrawlerToggle))))
+	                {
+	                    if (selectedTarget.name.Contains(ControlAssetName) && !TargetCastInfo.transform.name.Contains(ControlAssetName))
+	                    {
+	                        moveto_pos = TargetCastInfo.point;
+	                        moveto_pos.y += selectedTarget.transform.localScale.y;
+	
+	                        selection_toggle.createSelectionToggle(moveto_pos, Quaternion.FromToRotation(Vector3.up, TargetCastInfo.normal));
 							
-							//Calculate the nearby sqaures of the moveto_pos for every selected unit.
-							MainGridGenerator.CalculateFinalSquaresNearbys(moveto_pos, multiselect_toggle.getCurrentlySelected().Count);
-							
-                            foreach (Transform trans in multiselect_toggle.getCurrentlySelected())
-                            {
-                                // Movement Formations created in this location. Edited by Tuukka.
-                                if (moveto_pos != previous_moveto_pos)
-                                    MainGridGenerator.CalculateNewPath(trans, moveto_pos, counter, moveToObj);
-
-                                UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(trans, counter++));
+							//Edited by Tuukka.
+	                        if (camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle))
+	                        {
+	                            int counter = 0;
 								
-                            }
-                        }
-                        else
-                        {
-							int counter = 0;
-                            if (moveto_pos != previous_moveto_pos)
-                                MainGridGenerator.CalculateNewPath(selectedTarget, moveto_pos, counter, moveToObj);
-
-                            UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(selectedTarget, 1));
-                        }
-
-                        previous_moveto_pos = moveto_pos;
-                    }
-                }
-            }
-        }
+								//Calculate the nearby sqaures of the moveto_pos for every selected unit.
+								MainGridGenerator.CalculateFinalSquaresNearbys(moveto_pos, multiselect_toggle.getCurrentlySelected().Count);
+								
+	                            foreach (Transform trans in multiselect_toggle.getCurrentlySelected())
+	                            {
+	                                // Movement Formations created in this location. Edited by Tuukka.
+	                                if (moveto_pos != previous_moveto_pos)
+	                                    MainGridGenerator.CalculateNewPath(trans, moveto_pos, counter, moveToObj);
+	
+	                                UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(trans, counter++));
+									
+	                            }
+	                        }
+	                        else
+	                        {
+								int counter = 0;
+	                            if (moveto_pos != previous_moveto_pos)
+	                                MainGridGenerator.CalculateNewPath(selectedTarget, moveto_pos, counter, moveToObj);
+	
+	                            UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(selectedTarget, 1));
+	                        }
+	
+	                        previous_moveto_pos = moveto_pos;
+	                    }
+	                }
+	            }
+	        }
+		}
+		//Remove calculated path from 3rd person view character. Done by Tuukka.
+		else if(camMovementBehavior.isFollowToggle() && selectedTarget != null)
+		{
+			selectedTarget.gameObject.GetComponent<ControlObjHandler>().Moveable = false;
+		}	
 
         UpdatePositionToggle.UpdateTogglePositions();
     }

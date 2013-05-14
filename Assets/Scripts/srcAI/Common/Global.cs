@@ -365,7 +365,7 @@ public class Global
 					ray.direction = Vector3.up;
 					
 					// POINT 1
-					// Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
+					 Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
 					RaycastHit hitCollision = new RaycastHit();					
 					if (Physics.Raycast(ray, out hitCollision, Mathf.Infinity))
 					{
@@ -376,7 +376,7 @@ public class Global
 					}					
 					
 					// POINT 2
-					// Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
+					 Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
 					hitCollision = new RaycastHit();					
 					ray.origin = new Vector3(basePoint.x + widthCell, basePoint.y, basePoint.z + heightCell);					
 					if (Physics.Raycast(ray, out hitCollision, Mathf.Infinity))
@@ -388,7 +388,7 @@ public class Global
 					}					
 					
 					// POINT 3
-					// Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
+					 Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
 					hitCollision = new RaycastHit();					
 					ray.origin = new Vector3(basePoint.x, basePoint.y, basePoint.z + heightCell);					
 					if (Physics.Raycast(ray, out hitCollision, Mathf.Infinity))
@@ -400,7 +400,7 @@ public class Global
 					}					
 
 					// POINT 4
-					// Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
+					 Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
 					hitCollision = new RaycastHit();					
 					ray.origin = new Vector3(basePoint.x + widthCell, basePoint.y, basePoint.z);					
 					if (Physics.Raycast(ray, out hitCollision, Mathf.Infinity))
@@ -412,7 +412,7 @@ public class Global
 					}					
 
 					// POINT 2 (NEGATIVE)
-					// Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
+					 Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
 					hitCollision = new RaycastHit();
 					ray.origin = new Vector3(basePoint.x - widthCell, basePoint.y, basePoint.z - heightCell);					
 					if (Physics.Raycast(ray, out hitCollision, Mathf.Infinity))
@@ -424,7 +424,7 @@ public class Global
 					}					
 					
 					// POINT 3 (NEGATIVE)
-					// Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
+					 Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
 					hitCollision = new RaycastHit();					
 					ray.origin = new Vector3(basePoint.x, basePoint.y, basePoint.z - heightCell);					
 					if (Physics.Raycast(ray, out hitCollision, Mathf.Infinity))
@@ -436,7 +436,7 @@ public class Global
 					}					
 
 					// POINT 4 (NEGATIVE)
-					// Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
+					 Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
 					hitCollision = new RaycastHit();					
 					ray.origin = new Vector3(basePoint.x - widthCell, basePoint.y, basePoint.z);					
 					if (Physics.Raycast(ray, out hitCollision, Mathf.Infinity))
