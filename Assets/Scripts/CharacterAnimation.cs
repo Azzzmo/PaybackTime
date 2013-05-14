@@ -27,6 +27,7 @@ public class CharacterAnimation : MonoBehaviour {
 	void Start () {
 		
 		mystate = animState.Idle;
+		isControlled = false;
 		
 		controller = GetComponentInChildren<CharacterController>(); //assume there's a character controller
 		theanimation = GetComponentInChildren<Animation>(); //assume there's an animation component

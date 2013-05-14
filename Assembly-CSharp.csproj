@@ -54,11 +54,11 @@
      <Compile Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Scripts\WaterBase.cs" />
      <Compile Include="Assets\3D Models\Terrain Objects\Water (Pro Only)\Water4\Sources\Scripts\WaterTile.cs" />
      <Compile Include="Assets\Animations\DeleteThis1.cs" />
-     <Compile Include="Assets\CharacterAnimation.cs" />
      <Compile Include="Assets\Data tables\DeleteThis2.cs" />
      <Compile Include="Assets\GUI\DeleteThis3.cs" />
      <Compile Include="Assets\Resources\DeleteThis5.cs" />
      <Compile Include="Assets\Scripts\CamMovementBehavior.cs" />
+     <Compile Include="Assets\Scripts\CharacterAnimation.cs" />
      <Compile Include="Assets\Scripts\CharacterMotor.cs" />
      <Compile Include="Assets\Scripts\ControlObjHandler.cs" />
      <Compile Include="Assets\Scripts\CreatureHandler.cs" />
