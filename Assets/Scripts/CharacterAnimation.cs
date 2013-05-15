@@ -11,7 +11,12 @@ public class CharacterAnimation : MonoBehaviour {
 	private Animation theanimation;
 	private float previous_control_x = 0f;
 	private float previous_control_z = 0f;
-	public float animationSpeed = 0.9f;
+	
+	public float idleAnimationSpeed = 1f;
+	public float walkAnimationSpeed = 1f;
+	public float runAnimationSpeed = 1f;
+	public float sidestepAnimationSpeed = 1f;
+	
 	private Transform cam;
 	public bool isControlled;
 
@@ -87,22 +92,22 @@ public class CharacterAnimation : MonoBehaviour {
 		
 		switch (mystate) {
 		case animState.Idle: theanimation.Play("idle");
-			theanimation["idle"].speed = animationSpeed;
+			theanimation["idle"].speed = idleAnimationSpeed;
 			break;
 		case animState.Walking: theanimation.CrossFade ("walk");
-			theanimation["walk"].speed = animationSpeed;
+			theanimation["walk"].speed = walkAnimationSpeed;
 			break;
 		case animState.Reversing: theanimation.CrossFade("walk");
-			theanimation["walk"].speed = -1 * animationSpeed;
+			theanimation["walk"].speed = -1 * walkAnimationSpeed;
 			break; 
 		case animState.Running: theanimation.CrossFade ("run");
-			theanimation["run"].speed = animationSpeed;
+			theanimation["run"].speed = runAnimationSpeed;
 			break;
 		case animState.Sidestepping: theanimation.CrossFade ("walk");
-			theanimation["walk"].speed = animationSpeed;
+			theanimation["walk"].speed = sidestepAnimationSpeed;
 			break;
 		default: theanimation.Play ("idle");
-			theanimation["idle"].speed = animationSpeed;
+			theanimation["idle"].speed = idleAnimationSpeed;
 			break;
 		}
 
