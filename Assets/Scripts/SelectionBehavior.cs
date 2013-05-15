@@ -13,6 +13,8 @@ public class SelectionBehavior : MonoBehaviour
 {
 	//Added by Tuukka
 	public Transform moveToObj;
+	public int moveSpeed = 30;
+	private UpdatePositionToggle upt;
 	
     private CamMovementBehavior camMovementBehavior;
 	//Edited by Tuukka
@@ -65,6 +67,9 @@ public class SelectionBehavior : MonoBehaviour
 
     void Start()
     {
+		//Done by Tuukka.
+		UpdatePositionToggle.moveSpeed = this.moveSpeed;
+		
         if (MouseCursor != null)
         {
             Screen.showCursor = false;
@@ -373,6 +378,11 @@ public class SelectionBehavior : MonoBehaviour
         private bool toggled_movement = false;
         //private bool angle_adjusted = false;
         private int toggle_count = 0;
+		
+		
+		//Move speed of the all units. Done by Tuukka.
+		public static int moveSpeed = 30;
+		
 
         /// <summary>
         /// Creates a New UpdatePositionToggle with a Unity3D Transform Object and the toggle_count.
@@ -432,7 +442,7 @@ public class SelectionBehavior : MonoBehaviour
 
                     if (selected.isMoveable())
                     {
-                        selected.Position = selected.Position + (selected.destinationPosition() - selected.Position).normalized * (30 * Time.deltaTime);
+                        selected.Position = selected.Position + (selected.destinationPosition() - selected.Position).normalized * (moveSpeed * Time.deltaTime);
 
                         //if (selected.angle_adjusted)
                         //{
@@ -544,5 +554,6 @@ public class SelectionBehavior : MonoBehaviour
         {
             return update_target.name;
         }
+
     }
 }
