@@ -1,13 +1,19 @@
 fileFormatVersion: 2
-guid: fe52c85c4ef454a40868e3f6a36a8574
+guid: 29d1ca421b99b584ab76ec2806b8c1c6
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Cube
+    100000: Camera
+    100002: Cylinder
+    100004: Point
+    100006: //RootNode
+    400000: Camera
+    400002: Cylinder
+    400004: Point
+    400006: //RootNode
+    2300000: Cylinder
+    3300000: Cylinder
+    4300000: Cylinder
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -26,7 +32,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: .00999999978
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
