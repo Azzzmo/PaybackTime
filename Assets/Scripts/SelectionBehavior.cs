@@ -21,7 +21,7 @@ public class SelectionBehavior : MonoBehaviour
     public MultiSelectToggle multiselect_toggle;
     private SelectionToggle selection_toggle;
 
-    private RaycastHit TargetCastInfo;
+    private RaycastHit targetCastInfo;
     private Transform selectedTarget = null;
     private Transform activeTarget = null;
 
@@ -108,9 +108,9 @@ public class SelectionBehavior : MonoBehaviour
         if (activeCursorGfx != null)
             GUI.DrawTexture(new Rect(Event.current.mousePosition.x + (activeCursorGfx == mouseCursor[0] ? 0 : CursorPosMod.x), Event.current.mousePosition.y + (activeCursorGfx == mouseCursor[0] ? 0 : CursorPosMod.y), 32, 32), activeCursorGfx);
         
-        if (TargetCastInfo.transform != null)
+        if (targetCastInfo.transform != null)
         {
-            GUI.Label(new Rect(0, 0, Screen.width / 2, 20), "Target: " + TargetCastInfo.transform.name);
+            GUI.Label(new Rect(0, 0, Screen.width / 2, 20), "Target: " + targetCastInfo.transform.name);
         }
 
         if (selectedTarget != null)
@@ -140,21 +140,21 @@ public class SelectionBehavior : MonoBehaviour
 	
 	        Ray ray = camera.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
 	
-	        if (Physics.Raycast(ray, out TargetCastInfo))
+	        if (Physics.Raycast(ray, out targetCastInfo))
 	        {
 	            if (Input.GetMouseButtonUp(0))
 	            {
-	                if (TargetCastInfo.transform != null)
+	                if (targetCastInfo.transform != null)
 	                {
-	                    if (TargetCastInfo.transform.name.Contains(ControlAssetName))
+	                    if (targetCastInfo.transform.name.Contains(ControlAssetName))
 	                    {
 	                        if (camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle) && !Input.GetKey(AddAdditionalKey))
 	                            multiselect_toggle.ClearSelectedTargets();
 	
-	                        ChangeSelectedTarget(TargetCastInfo.transform);
+	                        ChangeSelectedTarget(targetCastInfo.transform);
 	                    }
 	
-	                    if (TargetCastInfo.transform.name.Contains(CreatureAssetName) || TargetCastInfo.transform.name.Contains(NPCAssetName))
+	                    if (targetCastInfo.transform.name.Contains(CreatureAssetName) || targetCastInfo.transform.name.Contains(NPCAssetName))
 	                    {
 	                        // de-init last active_target's data
 	                        if (activeTarget != null)
@@ -173,7 +173,7 @@ public class SelectionBehavior : MonoBehaviour
 	                            activeTarget.FindChild("SelectedIndicator").gameObject.SetActive(false);
 	                        }
 	
-	                        activeTarget = TargetCastInfo.transform;
+	                        activeTarget = targetCastInfo.transform;
 	
 	                        activeTarget.FindChild("SelectedIndicator").gameObject.SetActive(true);
 	
@@ -195,17 +195,17 @@ public class SelectionBehavior : MonoBehaviour
 	        // a target is selected
 	        if (selectedTarget != null)
 	        {
-	            if (TargetCastInfo.transform != null)
+	            if (targetCastInfo.transform != null)
 	            {
 	                // left mouse button pressed
 	                if ((multiselect_toggle.isMovementAllowed() && (Input.GetMouseButtonUp(0) && camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle)) || (Input.GetMouseButton(0) && camMovementBehavior.ControllerToggleType.Equals(ControllerType.DungeonCrawlerToggle))))
 	                {
-	                    if (selectedTarget.name.Contains(ControlAssetName) && !TargetCastInfo.transform.name.Contains(ControlAssetName))
+	                    if (selectedTarget.name.Contains(ControlAssetName) && !targetCastInfo.transform.name.Contains(ControlAssetName))
 	                    {
-	                        moveto_pos = TargetCastInfo.point;
+	                        moveto_pos = targetCastInfo.point;
 	                        moveto_pos.y += selectedTarget.transform.localScale.y;
 	
-	                        selection_toggle.createSelectionToggle(moveto_pos, Quaternion.FromToRotation(Vector3.up, TargetCastInfo.normal));
+	                        selection_toggle.createSelectionToggle(moveto_pos, Quaternion.FromToRotation(Vector3.up, targetCastInfo.normal));
 							
 							//Edited by Tuukka.
 	                        if (camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle))
@@ -342,6 +342,11 @@ public class SelectionBehavior : MonoBehaviour
     {
         return selectedTarget;
     }
+	
+	public RaycastHit getTargetCastInfo()
+	{
+		return targetCastInfo;	
+	}
 
     /// <summary>
     /// Retrieves the selected NPC Object or Creature Object

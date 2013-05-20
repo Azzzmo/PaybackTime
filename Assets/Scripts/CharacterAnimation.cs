@@ -41,13 +41,13 @@ public class CharacterAnimation : MonoBehaviour {
 		cam = transform.FindChild("Character Camera");
 			
 		theanimation.Play("idle");
-		
+		/*
 		if(controller != null)
-			Debug.Log ("got controller");
+			//Debug.Log ("got controller");
 		if(theanimation != null)
-			Debug.Log ("got animation");
+			//Debug.Log ("got animation");
 		if(cam != null)
-			Debug.Log ("got Cam");
+			//Debug.Log ("got Cam");*/
 	}
 	
 	// Update is called once per frame
@@ -64,11 +64,11 @@ public class CharacterAnimation : MonoBehaviour {
 			//get input axis values
 			vAxis = Input.GetAxisRaw("Vertical");
 			hAxis = Input.GetAxisRaw("Horizontal");
-			Debug.Log ("is controlled");
+			//Debug.Log ("is controlled");
 		}else{
 			vAxis = 0f;
 			hAxis = 0f;
-			Debug.Log ("not controlled");
+			//Debug.Log ("not controlled");
 		}
 		
 		//set animation state based on input axis values
@@ -88,7 +88,7 @@ public class CharacterAnimation : MonoBehaviour {
 			//Debug.Log("control object moving");
 		}
 		
-		Debug.Log (mystate.ToString());
+		//Debug.Log (mystate.ToString());
 		
 		switch (mystate) {
 		case animState.Idle: theanimation.Play("idle");
