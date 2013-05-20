@@ -25,7 +25,7 @@ public class CombatMechanic : MonoBehaviour {
 			{
 				foreach (Transform trans in selectionBehaviour.multiselect_toggle.getCurrentlySelected())
 				{
-					trans.GetComponent<CharacterBase>().setMyTarget(TargetCastInfo.transform);
+					trans.GetComponent<CharacterBase>().MyTarget = TargetCastInfo.transform;
 				}
 			}
 		}

@@ -57,9 +57,12 @@
      <Compile Include="Assets\Data tables\DeleteThis2.cs" />
      <Compile Include="Assets\GUI\DeleteThis3.cs" />
      <Compile Include="Assets\Resources\DeleteThis5.cs" />
+     <Compile Include="Assets\Scripts\AnimStateEnum.cs" />
      <Compile Include="Assets\Scripts\CamMovementBehavior.cs" />
      <Compile Include="Assets\Scripts\CharacterAnimation.cs" />
+     <Compile Include="Assets\Scripts\CharacterBase.cs" />
      <Compile Include="Assets\Scripts\CharacterMotor.cs" />
+     <Compile Include="Assets\Scripts\CharacterTypeEnum.cs" />
      <Compile Include="Assets\Scripts\CombatMechanic.cs" />
      <Compile Include="Assets\Scripts\ControlObjHandler.cs" />
      <Compile Include="Assets\Scripts\CreatureHandler.cs" />
