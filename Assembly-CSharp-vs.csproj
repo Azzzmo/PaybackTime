@@ -63,7 +63,6 @@
      <Compile Include="Assets\Scripts\CharacterBase.cs" />
      <Compile Include="Assets\Scripts\CharacterMotor.cs" />
      <Compile Include="Assets\Scripts\CharacterTypeEnum.cs" />
-     <Compile Include="Assets\Scripts\CombatMechanic.cs" />
      <Compile Include="Assets\Scripts\ControlObjHandler.cs" />
      <Compile Include="Assets\Scripts\CreatureHandler.cs" />
      <Compile Include="Assets\Scripts\FPSInputController.cs" />
@@ -73,6 +72,7 @@
      <Compile Include="Assets\Scripts\GameBarSystem\ScrollBarEssentials.cs" />
      <Compile Include="Assets\Scripts\GridGenerator.cs" />
      <Compile Include="Assets\Scripts\GridRenderer.cs" />
+     <Compile Include="Assets\Scripts\InteractionHandler.cs" />
      <Compile Include="Assets\Scripts\MouseLook.cs" />
      <Compile Include="Assets\Scripts\MultiSelectToggle.cs" />
      <Compile Include="Assets\Scripts\NPCHandler.cs" />
