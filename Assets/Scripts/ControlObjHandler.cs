@@ -97,7 +97,9 @@ public class ControlObjHandler : MonoBehaviour
 
     void OnGUI()
     {
-        if (transform.FindChild("SelectedIndicator").gameObject.activeSelf)
+		// Added nullcheck
+		Transform selectedIndicator = transform.FindChild("SelectedIndicator");
+        if (selectedIndicator != null && selectedIndicator.gameObject.activeSelf)
         {
             if (DisplayHealth)
                 healthSystem.DrawBar();
@@ -168,10 +170,14 @@ public class ControlObjHandler : MonoBehaviour
 
         Vector3 controller_screen_pos = Camera.mainCamera.WorldToScreenPoint(this.transform.position + new Vector3(0, transform.localScale.y + transform.localScale.y / 2, 0));
         controller_screen_pos.y = Screen.height - controller_screen_pos.y;
-
-        if (healthSystem.getScrollBarRect().x != controller_screen_pos.x && healthSystem.getScrollBarRect().y != controller_screen_pos.y)
-            healthSystem.Update((int)controller_screen_pos.x, (int)controller_screen_pos.y);
-    }
+		
+		// Added null check, should healthSystem always exist?
+		if (healthSystem != null)
+		{
+            if (healthSystem.getScrollBarRect().x != controller_screen_pos.x && healthSystem.getScrollBarRect().y != controller_screen_pos.y)
+               healthSystem.Update((int)controller_screen_pos.x, (int)controller_screen_pos.y);
+		}
+	}
 
     void OnCollisionEnter(Collision collision)
     {
