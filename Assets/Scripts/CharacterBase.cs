@@ -34,6 +34,8 @@ public class CharacterBase : MonoBehaviour {
 	public bool canAttack;
 	public bool canShoot;
 	
+	//set enemy tag name
+	public string enemyTag;
 
 	//if object has camera component, it can be controlled
 	private Transform cam;
@@ -148,12 +150,8 @@ public class CharacterBase : MonoBehaviour {
 			currentTarget = myTargetsList[myTargetsList.Count - 1];
 		}
 		
-		if(currentTarget != null)
+		if(currentTarget != null && canShoot == false)
 		{
-			//Debug.Log (currentTarget.position.ToString());
-			//call selection behavior to move object towards 
-			//if( (transform.position - currentTarget.position).magnitude > 1)
-				//SelectionBehavior.UpdatePositionToggle(transform, 0);
 			Attack ();
 		}
 		
@@ -262,7 +260,7 @@ public class CharacterBase : MonoBehaviour {
 	//add the enemy to the list of targets when it enters the trigger area
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.tag == "Enemy")
+		if(other.gameObject.tag == enemyTag)
 		{
 			//Debug.Log("Enemy added in list of enemies");
 			myTargetsList.Add(other.transform);
@@ -272,11 +270,24 @@ public class CharacterBase : MonoBehaviour {
 	//remove the enemy from the list of targets when it exits the trigger area
 	void OnTriggerExit(Collider other)
 	{
-		if(other.gameObject.tag == "Enemy")
+		if(other.gameObject.tag == enemyTag)
 		{
 			//Debug.Log("Enemy removed from list of enemies");
 			if(myTargetsList.Contains(other.transform))
 				myTargetsList.Remove(other.transform);
 		}
+	}
+	
+	//shoot script is alternative to enemy characters that can shoot, and is called from enemy script. 
+	public void Shoot(Transform enemy, float shootdistance)
+	{
+		Vector3 targetDirection = enemy.transform.position - transform.position;
+		
+		RaycastHit rHit;
+		if(Physics.Raycast(this.transform.position, targetDirection, out rHit, shootdistance))
+		{
+			//animation.CrossFade("shoot");
+		}
+		
 	}
 }
