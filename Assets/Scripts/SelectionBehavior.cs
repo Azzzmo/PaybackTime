@@ -137,9 +137,9 @@ public class SelectionBehavior : MonoBehaviour
 	            else
 	                activeCursorGfx = null;
 	        }
-	
-	        Ray ray = camera.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-	
+			
+			Ray ray = camera.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+			
 	        if (Physics.Raycast(ray, out targetCastInfo))
 	        {
 	            if (Input.GetMouseButtonUp(0))

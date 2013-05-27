@@ -9,13 +9,21 @@ public class CharacterBase : MonoBehaviour {
 	
 	//character type (enum)
 	
+	
 	public CharacterType myType;
 	
 	//basic attributes
 	public int strength;
-	public int speed;
+	public float maxspeed;
 	public int intelligence;
 	public int health;
+	
+	
+	//movement and position
+	private Vector3 moveDirection;
+	public float gravity;
+	public float attackDistance;
+	
 	
 	//character states todo: enum - use in character animation script
 	public AnimState mystate;
@@ -24,6 +32,7 @@ public class CharacterBase : MonoBehaviour {
 	public bool canDrive;
 	public bool canBreak;
 	public bool canAttack;
+	public bool canShoot;
 	
 
 	//if object has camera component, it can be controlled
@@ -43,7 +52,7 @@ public class CharacterBase : MonoBehaviour {
 	//list of targets in range
 	List<Transform> myTargetsList = new List<Transform>();
 	//current target
-	Transform currentTarget;
+	public Transform currentTarget;
 	
 	
 	//animation values	
@@ -71,18 +80,11 @@ public class CharacterBase : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		//set default attributes
-		strength = 1;
-		speed = 1; 
-		intelligence = 1;
-		
-		//set default abilities
-		canDrive = false;
-		canBreak = false;
-		canAttack = false;
+		//movement and position
+		moveDirection = Vector3.zero;
 		
 		//set default animation state at start
-		Invoke("SetIdle", Random.value * 10);
+		Invoke("SetIdle", Random.value * 100);
 		
 		controller = GetComponentInChildren<CharacterController>(); //assume there's a character controller, and find it
 		theanimation = GetComponentInChildren<Animation>(); //assume there's an animation component, and find it
@@ -148,6 +150,10 @@ public class CharacterBase : MonoBehaviour {
 		
 		if(currentTarget != null)
 		{
+			//Debug.Log (currentTarget.position.ToString());
+			//call selection behavior to move object towards 
+			//if( (transform.position - currentTarget.position).magnitude > 1)
+				//SelectionBehavior.UpdatePositionToggle(transform, 0);
 			Attack ();
 		}
 		
@@ -165,10 +171,29 @@ public class CharacterBase : MonoBehaviour {
 	{
 		//todo: get target type to know if this is an attack on an enemy, breakable or vehicle
 		
-		//turn towards target
 		if(isControlled == false)
-			controller.Move(new Vector3(currentTarget.position.x, transform.position.y, currentTarget.position.z) * Time.deltaTime);
-		mystate = AnimState.Attack;
+		{
+				//move character to range
+				transform.LookAt(new Vector3(currentTarget.position.x, transform.position.y, currentTarget.position.z));
+				moveDirection = currentTarget.position - transform.position;//this.transform.forward;
+				moveDirection.Normalize();
+				moveDirection *= maxspeed;
+				
+				if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) > attackDistance)
+				{
+					mystate = AnimState.Walking;
+					moveDirection.y -= gravity * Time.deltaTime;
+					controller.Move(moveDirection * Time.deltaTime);
+				}
+				else if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) <= attackDistance)
+				{
+					mystate = AnimState.Attack;
+				}
+			
+		}
+		else if(Input.GetKey(KeyCode.Space))
+			mystate = AnimState.Attack;
+		
 	}	
 	
 	//Death
@@ -180,20 +205,20 @@ public class CharacterBase : MonoBehaviour {
 	//Change
 	void Change()
 	{
-		Debug.Log ("changing");
+		//Debug.Log ("changing");
 		mystate = AnimState.Change;
 	}
 	
 	//GetHit
 	public void GetHit()
 	{
-		Debug.Log ("got hit");
+		//Debug.Log ("got hit");
 	}
 	
 	//Drive
 	void Drive()
 	{
-		Debug.Log ("Driving");
+		//Debug.Log ("Driving");
 	}
 	
 	void Animate(AnimState mystate)
@@ -251,7 +276,7 @@ public class CharacterBase : MonoBehaviour {
 		{
 			//Debug.Log("Enemy removed from list of enemies");
 			if(myTargetsList.Contains(other.transform))
-				myTargetsList.Remove(other.transform);			
+				myTargetsList.Remove(other.transform);
 		}
 	}
 }
