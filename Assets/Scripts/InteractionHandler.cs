@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class CombatMechanic : MonoBehaviour {
+public class InteractionHandler : MonoBehaviour {
 	
 	private SelectionBehavior selectionBehaviour;
 	private RaycastHit TargetCastInfo;

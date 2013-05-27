@@ -448,7 +448,17 @@ public class Enemy :  Actor
 				}				
 			
 				// TIMEOUT TO SHOOT
-				if (m_world!=null)
+				Shoot();
+			
+				m_timeAcum += Time.deltaTime;
+				if (m_timeAcum>SHOOT_TIMEOUT)
+				{
+					m_timeAcum = 0;
+					print("Shoot!");
+					Shoot();
+				}
+			
+				/*if (m_world!=null)
 				{
 					m_timeAcum += Time.deltaTime;
 					if (m_timeAcum>SHOOT_TIMEOUT)
@@ -456,7 +466,7 @@ public class Enemy :  Actor
 						m_timeAcum = 0;
 						m_world.BroadcastMessage("AskNewShoot", new ShootParameters(Character, Position, Global.TYPE_ENEMY, SHOOT_SPEED, DAMAGE_ENEMY));
 					}
-				}
+				}*/
 			
 				// ALIGN WITH THE PLAYER
 				if (Goal != null)
@@ -577,6 +587,15 @@ public class Enemy :  Actor
 			////////////////////////////////
 			case STATE_SHOOT_PLAYER:
 				// TIMEOUT TO SHOOT
+			
+				m_timeAcum += Time.deltaTime;
+				if (m_timeAcum>SHOOT_TIMEOUT)
+				{
+					m_timeAcum = 0;
+					print("Shoot!");
+					Shoot();
+				}
+				/*
 				if (m_world!=null)
 				{
 					m_timeAcum += Time.deltaTime;
@@ -586,7 +605,7 @@ public class Enemy :  Actor
 						if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_SHOOT_PLAYER::NEW SHOOT! Position_A="+Character.transform.position.ToString());
 						m_world.BroadcastMessage("AskNewShoot", new ShootParameters(Character,  Position, Global.TYPE_ENEMY, SHOOT_SPEED, DAMAGE_ENEMY));
 					}
-				}
+				}*/
 
 				// GO IDLE
 				if (Goal != null)
@@ -620,7 +639,20 @@ public class Enemy :  Actor
 					Destroy();
 				}
 				break;			
-		}		
+		}	
+	}
+	
+	private void Shoot()
+	{
+		print ("SHHOT!");
+		
+		Vector3 targetDirection = m_goal.transform.position - this.transform.position;
+		RaycastHit rHit;
+		
+		if(Physics.Raycast(this.transform.position, targetDirection, out rHit, this.m_viewDistance))
+		{
+			print ("HIT: " + rHit.transform.name);
+		}
 	}
 }
 
