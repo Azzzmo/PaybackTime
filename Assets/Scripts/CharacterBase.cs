@@ -18,11 +18,14 @@ public class CharacterBase : MonoBehaviour {
 	public int intelligence;
 	public int health;
 	
+	public int shootDamage;
+	public int meleeDamage;
+	
 	
 	//movement and position
 	private Vector3 moveDirection;
 	public float gravity;
-	public float attackDistance;
+	public float meleeDistance;
 	
 	
 	//character states todo: enum - use in character animation script
@@ -86,7 +89,7 @@ public class CharacterBase : MonoBehaviour {
 		moveDirection = Vector3.zero;
 		
 		//set default animation state at start
-		Invoke("SetIdle", Random.value * 100);
+		Invoke("SetIdle", Random.value * 10);
 		
 		controller = GetComponentInChildren<CharacterController>(); //assume there's a character controller, and find it
 		theanimation = GetComponentInChildren<Animation>(); //assume there's an animation component, and find it
@@ -101,6 +104,11 @@ public class CharacterBase : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
+		//if already dead, destroy parent object
+		if(mystate == AnimState.Death)
+			Destroy(gameObject, 5f);
+		
 		//reset currentTarget enemy
 		currentTarget = null;
 		
@@ -177,15 +185,16 @@ public class CharacterBase : MonoBehaviour {
 				moveDirection.Normalize();
 				moveDirection *= maxspeed;
 				
-				if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) > attackDistance)
+				if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) > meleeDistance)
 				{
 					mystate = AnimState.Walking;
 					moveDirection.y -= gravity * Time.deltaTime;
 					controller.Move(moveDirection * Time.deltaTime);
 				}
-				else if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) <= attackDistance)
+				else if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) <= meleeDistance)
 				{
-					mystate = AnimState.Attack;
+						mystate = AnimState.Attack;
+						currentTarget.gameObject.GetComponent<CharacterBase>().GetHit(meleeDamage);
 				}
 			
 		}
@@ -197,6 +206,7 @@ public class CharacterBase : MonoBehaviour {
 	//Death
 	void Die()
 	{
+		Debug.Log(this.name + " I died!");
 		mystate = AnimState.Death;
 	}
 	
@@ -208,9 +218,12 @@ public class CharacterBase : MonoBehaviour {
 	}
 	
 	//GetHit
-	public void GetHit()
+	public void GetHit(int damage)
 	{
-		//Debug.Log ("got hit");
+		Debug.Log ( this.name + "got hit");
+		health -= damage;
+		if(health <= 0)
+			Die();
 	}
 	
 	//Drive
@@ -287,7 +300,18 @@ public class CharacterBase : MonoBehaviour {
 		if(Physics.Raycast(this.transform.position, targetDirection, out rHit, shootdistance))
 		{
 			//animation.CrossFade("shoot");
+			Debug.Log("shooting");
+			enemy.gameObject.GetComponent<CharacterBase>().GetHit(shootDamage);
 		}
 		
 	}
+	
+	public bool IsAlive()
+	{
+		if(health > 0)
+			return true;
+		else
+			return false;
+	}
+	
 }
