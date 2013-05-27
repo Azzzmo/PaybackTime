@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Enemy :  Actor
 {
+	CharacterBase CB;
+	
 	public const bool DEBUG_ENEMY  			= false;
 	
 	// ----------------------------------------------
@@ -20,7 +22,7 @@ public class Enemy :  Actor
 	public const int STATE_DIE    					= 6;
 	public const int STATE_END    					= 7;	
 	
-	public const float SHOOT_TIMEOUT = 0.5f;
+	public const float SHOOT_TIMEOUT = 1.5f;
 	public const float SHOOT_SPEED 	 = 20.0f;
 	
 	public const int LIFE_ENEMY 	 = 100;	
@@ -70,6 +72,8 @@ public class Enemy :  Actor
 	 */
 	void Start () 
 	{
+		CB = GetComponent<CharacterBase>();
+		
 		ChangeState(STATE_WAYPOINTS);
 						
 		// INIT GAME OBJECT
@@ -448,14 +452,12 @@ public class Enemy :  Actor
 				}				
 			
 				// TIMEOUT TO SHOOT
-				Shoot();
 			
 				m_timeAcum += Time.deltaTime;
 				if (m_timeAcum>SHOOT_TIMEOUT)
 				{
 					m_timeAcum = 0;
-					print("Shoot!");
-					Shoot();
+					CB.Shoot(m_goal.transform, m_viewDistance);
 				}
 			
 				/*if (m_world!=null)
@@ -592,8 +594,7 @@ public class Enemy :  Actor
 				if (m_timeAcum>SHOOT_TIMEOUT)
 				{
 					m_timeAcum = 0;
-					print("Shoot!");
-					Shoot();
+					CB.Shoot(m_goal.transform, m_viewDistance);
 				}
 				/*
 				if (m_world!=null)
@@ -640,19 +641,6 @@ public class Enemy :  Actor
 				}
 				break;			
 		}	
-	}
-	
-	private void Shoot()
-	{
-		print ("SHHOT!");
-		
-		Vector3 targetDirection = m_goal.transform.position - this.transform.position;
-		RaycastHit rHit;
-		
-		if(Physics.Raycast(this.transform.position, targetDirection, out rHit, this.m_viewDistance))
-		{
-			print ("HIT: " + rHit.transform.name);
-		}
 	}
 }
 
