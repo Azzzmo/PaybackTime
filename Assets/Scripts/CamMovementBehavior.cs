@@ -32,7 +32,7 @@ public class CamMovementBehavior : MonoBehaviour
     private Vector3 TargetPosition = Vector3.zero;
     private Quaternion look_rotation = Quaternion.identity;
 
-    private float zoom_distance = 320f;
+    private float zoom_distance = 10f;
     private float angle_between = 3 * Mathf.PI / 2;
     private float cam_range_time = 0;
     private float followcam_delay_counter = 0;
@@ -101,6 +101,8 @@ public class CamMovementBehavior : MonoBehaviour
         selectionBehavior = transform.GetComponent<SelectionBehavior>();
 
         ActiveScrolling = ControllerToggleType.Equals(ControllerType.RealTimeStratToggle) && EnableMouseScroll;
+		
+		//this.transform.position = new Vector3(762.4379f, 69.23634f, 541.4874f);
     }
 
 	void Update()

@@ -8,8 +8,6 @@ using System.Collections.Generic;
 public class CharacterBase : MonoBehaviour {
 	
 	//character type (enum)
-	
-	
 	public CharacterType myType;
 	
 	//basic attributes
@@ -18,12 +16,20 @@ public class CharacterBase : MonoBehaviour {
 	public int intelligence;
 	public int health;
 	
+	public int shootDamage;
+	public int meleeDamage;
+	
+	//combat timers and variables
+	public float attackRate = 1f;
+	private float attackTimer;
+	
+	//state change timer is used for allowing animation to finish before starting another one unless 
+	private float stateChangeTimer;
 	
 	//movement and position
 	private Vector3 moveDirection;
 	public float gravity;
-	public float attackDistance;
-	
+	public float meleeDistance;
 	
 	//character states todo: enum - use in character animation script
 	public AnimState mystate;
@@ -42,7 +48,6 @@ public class CharacterBase : MonoBehaviour {
 	
 	//is character being controlled in first person view
 	public bool isControlled;
-
 	
 	//character specific target
 	private Transform mySpecificTarget;
@@ -85,8 +90,15 @@ public class CharacterBase : MonoBehaviour {
 		//movement and position
 		moveDirection = Vector3.zero;
 		
+		//state change timer to track if animation is being run
+		stateChangeTimer = 0f;
+			
+		//set attack timer to attack rate, so that first attack wont have to wait
+		attackTimer = attackRate;
+		
 		//set default animation state at start
-		Invoke("SetIdle", Random.value * 100);
+		Invoke("SetIdle", Random.value * 10);
+		//mystate = AnimState.Idle;
 		
 		controller = GetComponentInChildren<CharacterController>(); //assume there's a character controller, and find it
 		theanimation = GetComponentInChildren<Animation>(); //assume there's an animation component, and find it
@@ -101,62 +113,78 @@ public class CharacterBase : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//reset currentTarget enemy
-		currentTarget = null;
 		
-		if(cam != null && cam.gameObject.activeSelf)
-			isControlled = true;
-		else 
-			isControlled = false;
-		
-		//if object is being controlled by input, set axis values accordingly
-		if(isControlled == true)
+		if(IsAlive())
 		{
-			//get input axis values
-			vAxis = Input.GetAxisRaw("Vertical");
-			hAxis = Input.GetAxisRaw("Horizontal");
-			//Debug.Log ("is controlled");
-		}else{
-			vAxis = 0f;
-			hAxis = 0f;
-			//Debug.Log ("not controlled");
-		}
-		
-		//set animation state based on input axis values
-			if(vAxis > 0)
+			//reset currentTarget enemy
+			currentTarget = null;
+			
+			//if there's a camera active in gameobject, it's controlled by keyboard
+			if(cam != null && cam.gameObject.activeSelf)
+				isControlled = true;
+			else 
+				isControlled = false;
+			
+			//if object is being controlled by input, set axis values accordingly
+			if(isControlled == true)
+			{
+				//get input axis values
+				vAxis = Input.GetAxisRaw("Vertical");
+				hAxis = Input.GetAxisRaw("Horizontal");
+				//Debug.Log ("is controlled");
+			}else{
+				vAxis = 0f;
+				hAxis = 0f;
+				//Debug.Log ("not controlled");
+			}
+			
+			//set animation state based on input axis values
+				if(vAxis > 0)
+					mystate = AnimState.Walking;
+				else if (vAxis < 0)
+					mystate = AnimState.Reversing;
+				else if(hAxis < 0 || hAxis > 0)
+					mystate = AnimState.Sidestepping;
+				else if(vAxis == 0 || hAxis == 0)
+					mystate = AnimState.Idle;
+			
+			
+			//if controller has moved due to outside RTS control, set animation state accordingly
+	 		if((controller.transform.position.x != previous_control_x || controller.transform.position.z != previous_control_z) && isControlled == false)
+			{
 				mystate = AnimState.Walking;
-			else if (vAxis < 0)
-				mystate = AnimState.Reversing;
-			else if(hAxis < 0 || hAxis > 0)
-				mystate = AnimState.Sidestepping;
-			else if(vAxis == 0 || hAxis == 0)
-				mystate = AnimState.Idle;
-		
-		//if controller has moved due to outside RTS control, set animation state accordingly
- 		if((controller.transform.position.x != previous_control_x || controller.transform.position.z != previous_control_z) && isControlled == false )
-		{
-			mystate = AnimState.Walking;
-			//Debug.Log("control object moving");
-		}	
-		
-		//Check to see if there are any enemies in range, or a specific enemy to attack set
-		if(mySpecificTarget != null && myTargetsList.Contains(mySpecificTarget))
-		{
-			currentTarget = mySpecificTarget;
-		}
-		else if(myTargetsList.Count > 0)
-		{
-			//pick a target to attack (last of the list)
-			currentTarget = myTargetsList[myTargetsList.Count - 1];
-		}
-		
-		if(currentTarget != null && canShoot == false)
-		{
-			Attack ();
-		}
-		
-		//animate character based on state
-		Animate(mystate);
+				//Debug.Log("control object moving");
+			}	
+			
+			
+			//Check to see if there are any enemies in range, or a specific enemy to attack set
+			if(mySpecificTarget != null && myTargetsList.Contains(mySpecificTarget) && mySpecificTarget.gameObject.GetComponent<CharacterBase>().IsAlive())
+			{
+				currentTarget = mySpecificTarget;
+			}
+			else if(myTargetsList.Count > 0)
+			{
+				//check all enemies in target list that they are not dead, and if they are, remove from list
+				foreach(Transform enemy in myTargetsList)
+				{
+					if(!enemy.gameObject.GetComponent<CharacterBase>().IsAlive())
+						myTargetsList.Remove(enemy);
+				}
+				
+				//pick a target to attack (last of the list)
+				if(myTargetsList.Count > 0)
+					currentTarget = myTargetsList[myTargetsList.Count - 1];
+			}
+			
+			if(currentTarget != null && canShoot == false)
+			{
+				Attack ();
+			}
+
+			//animate character based on state
+			Animate(mystate);
+			
+		} //end if(IsAlive());
 		
 		//record current position for next round to check if it has changed between rounds
 		previous_control_x = controller.transform.position.x;
@@ -177,27 +205,51 @@ public class CharacterBase : MonoBehaviour {
 				moveDirection.Normalize();
 				moveDirection *= maxspeed;
 				
-				if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) > attackDistance)
+				if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) > meleeDistance)
 				{
 					mystate = AnimState.Walking;
 					moveDirection.y -= gravity * Time.deltaTime;
 					controller.Move(moveDirection * Time.deltaTime);
 				}
-				else if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) <= attackDistance)
+				//if in range, attack
+				else if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) <= meleeDistance)
 				{
-					mystate = AnimState.Attack;
+						if(attackTimer >= attackRate && currentTarget.gameObject.GetComponent<CharacterBase>().IsAlive())
+						{
+							mystate = AnimState.Attack;
+							Animate(mystate);
+							Debug.Log("attacking");
+							currentTarget.gameObject.GetComponent<CharacterBase>().GetHit(meleeDamage);
+							attackTimer = 0f;
+						}
+						attackTimer += Time.deltaTime;
 				}
 			
 		}
 		else if(Input.GetKey(KeyCode.Space))
 			mystate = AnimState.Attack;
-		
 	}	
 	
 	//Death
 	void Die()
 	{
+		Debug.Log(this.name + " I died!");
+		this.tag = "Dead";
 		mystate = AnimState.Death;
+		Animate(mystate);
+		//Destroy(this.gameObject, 10f);
+		
+		//remove control object handler
+		this.GetComponentInChildren<ControlObjHandler>().enabled = false;
+		
+		//remove camera
+		DestroyObject(cam.gameObject);
+		
+		//remove selection indicator
+		if(transform.FindChild("SelectedIndicator") != null)
+		{
+			transform.FindChild("SelectedIndicator").gameObject.GetComponent<MeshRenderer>().enabled = false;
+		}
 	}
 	
 	//Change
@@ -208,46 +260,72 @@ public class CharacterBase : MonoBehaviour {
 	}
 	
 	//GetHit
-	public void GetHit()
+	public void GetHit(int damage)
 	{
-		//Debug.Log ("got hit");
-	}
-	
-	//Drive
-	void Drive()
-	{
-		//Debug.Log ("Driving");
+		mystate = AnimState.GetHit;
+		Debug.Log ( this.name + " got hit");
+		
+		Animate(mystate);
+		health -= damage;
+		if(health <= 0)
+			Die();
 	}
 	
 	void Animate(AnimState mystate)
 	{
+		//idle, death, walking not included in state change, as they do not need to finish, but attack, get hit, change need to use timer. If dead, infinite
+		stateChangeTimer -= Time.deltaTime;
+
 		switch (mystate) {
-		case AnimState.Idle: theanimation.CrossFade("idle");
-			theanimation["idle"].speed = idleAnimationSpeed;
+		case AnimState.Idle: 
+			if(stateChangeTimer <= 0) 
+			{
+				theanimation.CrossFade("idle");
+				theanimation["idle"].speed = idleAnimationSpeed;
+			}
 			break;
-		case AnimState.Walking: theanimation.CrossFade ("walk");
+		case AnimState.Walking:
+			theanimation.CrossFade ("walk");
 			theanimation["walk"].speed = walkAnimationSpeed;
 			break;
-		case AnimState.Reversing: theanimation.CrossFade("walk");
+		case AnimState.Reversing: 
+			theanimation.CrossFade("walk");
 			theanimation["walk"].speed = -1 * walkAnimationSpeed;
 			break; 
-		case AnimState.Running: theanimation.CrossFade ("run");
+		case AnimState.Running: 
+			theanimation.CrossFade ("run");
 			theanimation["run"].speed = runAnimationSpeed;
 			break;
-		case AnimState.Sidestepping: theanimation.CrossFade ("walk");
+		case AnimState.Sidestepping: 
+			theanimation.CrossFade ("walk"); //to be changed
 			theanimation["walk"].speed = sidestepAnimationSpeed;
 			break;
-		case AnimState.Attack: theanimation.CrossFade("attack");
-			theanimation["walk"].speed = attackAnimationSpeed;
+		case AnimState.Attack: 
+			if(stateChangeTimer <= 0)
+			{
+				theanimation.CrossFade("attack");
+				theanimation["attack"].speed = attackAnimationSpeed;
+ 				stateChangeTimer = theanimation["attack"].length;
+			}
 			break;
-		case AnimState.Death: theanimation.CrossFade("death");
-			theanimation["walk"].speed = deathAnimationSpeed;
+		case AnimState.Death: 
+			theanimation.CrossFade("death");
+			theanimation["death"].speed = deathAnimationSpeed;	
+			stateChangeTimer = theanimation["death"].length + 1000f;
 			break;
-		case AnimState.GetHit: theanimation.CrossFade("gethit");
-			theanimation["walk"].speed = gethitAnimationSpeed;
+		case AnimState.GetHit: if(stateChangeTimer <= 0)
+			{
+				theanimation.CrossFade("gethit");
+				theanimation["gethit"].speed = gethitAnimationSpeed;
+				stateChangeTimer = theanimation["gethit"].length;
+			}
 			break;
-		default: theanimation.CrossFade ("idle");
-			theanimation["idle"].speed = idleAnimationSpeed;
+		default: 
+			if(stateChangeTimer <= 0)
+			{
+				theanimation.CrossFade ("idle");
+			 	theanimation["idle"].speed = idleAnimationSpeed;
+			}
 			break;
 		}
 	}
@@ -255,6 +333,7 @@ public class CharacterBase : MonoBehaviour {
 	void SetIdle()
 	{
 		mystate = AnimState.Idle;
+		Debug.Log("idle set");
 	}
 	
 	//add the enemy to the list of targets when it enters the trigger area
@@ -287,7 +366,17 @@ public class CharacterBase : MonoBehaviour {
 		if(Physics.Raycast(this.transform.position, targetDirection, out rHit, shootdistance))
 		{
 			//animation.CrossFade("shoot");
+			Debug.Log("shooting");
+			enemy.gameObject.GetComponent<CharacterBase>().GetHit(shootDamage);
 		}
 		
+	}
+	
+	public bool IsAlive()
+	{
+		if(health > 0)
+			return true;
+		else
+			return false;
 	}
 }
