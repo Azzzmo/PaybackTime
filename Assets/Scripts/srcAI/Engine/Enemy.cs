@@ -335,7 +335,8 @@ public class Enemy :  Actor
 					{
 						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
 						Goal = go;
-						target_CB = go.GetComponent<CharacterBase>;
+						target_CB = go.GetComponent<CharacterBase>();
+						
 					
 						if (hitCollision.collider!=null)
 						{
@@ -394,7 +395,7 @@ public class Enemy :  Actor
 					{
 						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
 						Goal = go;
-						target_CB = go.GetComponent<CharacterBase>;
+						target_CB = go.GetComponent<CharacterBase>();
 					
 						if (hitCollision.collider!=null)
 						{
@@ -464,7 +465,7 @@ public class Enemy :  Actor
 					{
 						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
 						Goal = go;
-						target_CB = go.GetComponent<CharacterBase>;
+						target_CB = go.GetComponent<CharacterBase>();
 						
 						if (hitCollision.collider!=null)
 						{
@@ -504,7 +505,13 @@ public class Enemy :  Actor
 						CB.Shoot(m_goal.transform, m_viewDistance);
 				
 					else
+					{
+					m_goals = GameObject.FindGameObjectsWithTag(Global.PLAYER_TAG);
 						ChangeState(STATE_FOLLOW_PLAYER_PATHFINDING);
+						//Goal = null;
+						//target_CB = null;
+						
+					}
 				}
 			
 				/*if (m_world!=null)
@@ -646,7 +653,13 @@ public class Enemy :  Actor
 						CB.Shoot(m_goal.transform, m_viewDistance);
 				
 					else
+					{
+					m_goals = GameObject.FindGameObjectsWithTag(Global.PLAYER_TAG);
 						ChangeState(STATE_FOLLOW_PLAYER_PATHFINDING);
+						//Goal = null;
+						//target_CB = null;
+						
+					}
 				}
 				/*
 				if (m_world!=null)
