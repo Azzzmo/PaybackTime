@@ -39,8 +39,8 @@ public class Enemy :  Actor
 	private List<Vector3> m_waypoints = new List<Vector3>();
 	private bool m_directionWaypoints;
 	private GameObject m_goal;	
-	//private List<GameObject> m_goals = new List<GameObject>(); //Added by Tuukka. The list for all the PCs.
-	private GameObject[] m_goals;
+	private List<GameObject> m_goals = new List<GameObject>(); //Added by Tuukka. The list for all the PCs.
+	//private GameObject[] m_goals;
 	RaycastHit hitCollision = new RaycastHit();
 	//
 	
@@ -96,8 +96,12 @@ public class Enemy :  Actor
 		
 		// SET THE PROTAGONIST GOAL
 		GameObject protagonistModel = GameObject.FindGameObjectWithTag(Global.PLAYER_TAG);	
-		m_goals = GameObject.FindGameObjectsWithTag(Global.PLAYER_TAG);
+		//m_goals = GameObject.FindGameObjectsWithTag(Global.PLAYER_TAG);
 		
+		foreach(GameObject gameo in GameObject.FindGameObjectsWithTag(Global.PLAYER_TAG))
+		{
+			m_goals.Add(gameo);	
+		}
 		
 		if (protagonistModel!=null)
 		{
@@ -506,7 +510,7 @@ public class Enemy :  Actor
 				
 					else
 					{
-					m_goals = GameObject.FindGameObjectsWithTag(Global.PLAYER_TAG);
+						m_goals.Remove(m_goal);
 						ChangeState(STATE_FOLLOW_PLAYER_PATHFINDING);
 						//Goal = null;
 						//target_CB = null;
@@ -654,7 +658,7 @@ public class Enemy :  Actor
 				
 					else
 					{
-					m_goals = GameObject.FindGameObjectsWithTag(Global.PLAYER_TAG);
+						m_goals.Remove(m_goal);
 						ChangeState(STATE_FOLLOW_PLAYER_PATHFINDING);
 						//Goal = null;
 						//target_CB = null;

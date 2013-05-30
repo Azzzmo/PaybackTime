@@ -19,24 +19,17 @@ public class CharacterBase : MonoBehaviour {
 	public int shootDamage;
 	public int meleeDamage;
 	
-<<<<<<< HEAD
-=======
 	//combat timers and variables
 	public float attackRate = 1f;
 	private float attackTimer;
 	
 	//state change timer is used for allowing animation to finish before starting another one unless 
 	private float stateChangeTimer;
->>>>>>> 8de82df7b09626c9a93df36f26f8027436287f7c
 	
 	//movement and position
 	private Vector3 moveDirection;
 	public float gravity;
 	public float meleeDistance;
-<<<<<<< HEAD
-	
-=======
->>>>>>> 8de82df7b09626c9a93df36f26f8027436287f7c
 	
 	//character states todo: enum - use in character animation script
 	public AnimState mystate;
@@ -105,10 +98,7 @@ public class CharacterBase : MonoBehaviour {
 		
 		//set default animation state at start
 		Invoke("SetIdle", Random.value * 10);
-<<<<<<< HEAD
-=======
 		//mystate = AnimState.Idle;
->>>>>>> 8de82df7b09626c9a93df36f26f8027436287f7c
 		
 		controller = GetComponentInChildren<CharacterController>(); //assume there's a character controller, and find it
 		theanimation = GetComponentInChildren<Animation>(); //assume there's an animation component, and find it
@@ -123,21 +113,6 @@ public class CharacterBase : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-<<<<<<< HEAD
-		
-		//if already dead, destroy parent object
-		if(mystate == AnimState.Death)
-			Destroy(gameObject, 5f);
-		
-		//reset currentTarget enemy
-		currentTarget = null;
-		
-		if(cam != null && cam.gameObject.activeSelf)
-			isControlled = true;
-		else 
-			isControlled = false;
-=======
->>>>>>> 8de82df7b09626c9a93df36f26f8027436287f7c
 		
 		if(IsAlive())
 		{
@@ -236,12 +211,6 @@ public class CharacterBase : MonoBehaviour {
 					moveDirection.y -= gravity * Time.deltaTime;
 					controller.Move(moveDirection * Time.deltaTime);
 				}
-<<<<<<< HEAD
-				else if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) <= meleeDistance)
-				{
-						mystate = AnimState.Attack;
-						currentTarget.gameObject.GetComponent<CharacterBase>().GetHit(meleeDamage);
-=======
 				//if in range, attack
 				else if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) <= meleeDistance)
 				{
@@ -254,7 +223,6 @@ public class CharacterBase : MonoBehaviour {
 							attackTimer = 0f;
 						}
 						attackTimer += Time.deltaTime;
->>>>>>> 8de82df7b09626c9a93df36f26f8027436287f7c
 				}
 			
 		}
@@ -266,10 +234,7 @@ public class CharacterBase : MonoBehaviour {
 	void Die()
 	{
 		Debug.Log(this.name + " I died!");
-<<<<<<< HEAD
-=======
 		this.tag = "Dead";
->>>>>>> 8de82df7b09626c9a93df36f26f8027436287f7c
 		mystate = AnimState.Death;
 		Animate(mystate);
 		//Destroy(this.gameObject, 10f);
@@ -296,18 +261,6 @@ public class CharacterBase : MonoBehaviour {
 	
 	//GetHit
 	public void GetHit(int damage)
-<<<<<<< HEAD
-	{
-		Debug.Log ( this.name + "got hit");
-		health -= damage;
-		if(health <= 0)
-			Die();
-	}
-	
-	//Drive
-	void Drive()
-=======
->>>>>>> 8de82df7b09626c9a93df36f26f8027436287f7c
 	{
 		mystate = AnimState.GetHit;
 		Debug.Log ( this.name + " got hit");
@@ -426,8 +379,4 @@ public class CharacterBase : MonoBehaviour {
 		else
 			return false;
 	}
-<<<<<<< HEAD
-	
-=======
->>>>>>> 8de82df7b09626c9a93df36f26f8027436287f7c
 }
