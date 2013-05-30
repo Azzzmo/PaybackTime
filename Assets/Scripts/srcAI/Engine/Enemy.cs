@@ -38,6 +38,11 @@ public class Enemy :  Actor
 	private List<Vector3> m_waypoints = new List<Vector3>();
 	private bool m_directionWaypoints;
 	private GameObject m_goal;	
+	//private List<GameObject> m_goals = new List<GameObject>(); //Added by Tuukka. The list for all the PCs.
+	private GameObject[] m_goals;
+	RaycastHit hitCollision = new RaycastHit();
+	//
+	
 	private Vector2 m_lastCell;
 
 	// VIEW LINE RENDER
@@ -90,6 +95,9 @@ public class Enemy :  Actor
 		
 		// SET THE PROTAGONIST GOAL
 		GameObject protagonistModel = GameObject.FindGameObjectWithTag(Global.PLAYER_TAG);	
+		m_goals = GameObject.FindGameObjectsWithTag(Global.PLAYER_TAG);
+		
+		
 		if (protagonistModel!=null)
 		{
 			Goal = protagonistModel;
@@ -291,7 +299,7 @@ public class Enemy :  Actor
 		Collider sCollision;
 		Vector3 sWay;
 		String tagCollided;
-		RaycastHit hitCollision;
+		
 		
 		base.Update();		
 	
@@ -318,18 +326,28 @@ public class Enemy :  Actor
 				
 				}
 			
-				// PLAYER DETECTED
-				if (Goal != null)
+				// PLAYER DETECTED. Edited by Tuukka.
+				if (m_goals != null)
 				{
-					hitCollision= UpdateVision(Goal.transform.position, m_viewDistance, m_angleView, true);
-					if (hitCollision.collider!=null)
+					//Check every PC if it is on the enemys view cone.
+					foreach(GameObject go in m_goals)
 					{
-						if ( hitCollision.collider.tag == Global.PLAYER_TAG)	
+						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
+						Goal = go;
+					
+						if (hitCollision.collider!=null)
 						{
-							if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_IDLE::FOLLOW THE PLAYER!");
-							ChangeState(STATE_FOLLOW_PLAYER);
+							if ( hitCollision.collider.tag == Global.PLAYER_TAG)	
+							{
+								if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_IDLE::FOLLOW THE PLAYER!");
+								ChangeState(STATE_FOLLOW_PLAYER);
+								break;
+							}
 						}
 					}
+					
+				
+					
 				}
 				else
 				{
@@ -366,23 +384,33 @@ public class Enemy :  Actor
 					}
 				}
 			
-				// PLAYER DETECTED
-				if (Goal != null)
+				// PLAYER DETECTED. Edited by Tuukka.
+				if (m_goals != null)
 				{
-					hitCollision = UpdateVision(Goal.transform.position, m_viewDistance, m_angleView, true);
-					if (hitCollision.collider!=null)
+					//Check every PC if it is on the enemys view cone.
+					foreach(GameObject go in m_goals)
 					{
-						if ( hitCollision.collider.tag ==Global.PLAYER_TAG)	
+						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
+						Goal = go;
+					
+						if (hitCollision.collider!=null)
 						{
-							if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_WAYPOINTS::FOLLOW THE PLAYER!");
-							ChangeState(STATE_FOLLOW_PLAYER);
+							if ( hitCollision.collider.tag == Global.PLAYER_TAG)	
+							{
+								if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_IDLE::FOLLOW THE PLAYER!");
+								ChangeState(STATE_FOLLOW_PLAYER);
+								break;
+							}
 						}
 					}
+					
+				
+					
 				}
-				else					
+				else
 				{
-					UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, true);
-				}
+					hitCollision = UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, true);
+				}			
 				break;
 
 			////////////////////////////////
@@ -425,23 +453,33 @@ public class Enemy :  Actor
 					}
 				}
 			
-				// PLAYER DETECTED
-				if (Goal != null)
+				// PLAYER DETECTED. Edited by Tuukka.
+				if (m_goals != null)
 				{
-					hitCollision = UpdateVision(Goal.transform.position, m_viewDistance, m_angleView, true);
-					if (hitCollision.collider!=null)
-					{			
-						if ( hitCollision.collider.tag ==Global.PLAYER_TAG)	
+					//Check every PC if it is on the enemys view cone.
+					foreach(GameObject go in m_goals)
+					{
+						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
+						Goal = go;
+					
+						if (hitCollision.collider!=null)
 						{
-							if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_WAYPOINTS::FOLLOW THE PLAYER!");
-							ChangeState(STATE_FOLLOW_PLAYER);
+							if ( hitCollision.collider.tag == Global.PLAYER_TAG)	
+							{
+								if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_IDLE::FOLLOW THE PLAYER!");
+								ChangeState(STATE_FOLLOW_PLAYER);
+								break;
+							}
 						}
 					}
+					
+				
+					
 				}
-				else					
+				else
 				{
-					UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, true);
-				}				
+					hitCollision = UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, true);
+				}			
 				break;
 
 			////////////////////////////////
