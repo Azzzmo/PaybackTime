@@ -6,6 +6,7 @@ using UnityEngine;
 public class Enemy :  Actor
 {
 	CharacterBase CB;
+	CharacterBase target_CB;
 	
 	public const bool DEBUG_ENEMY  			= false;
 	
@@ -334,6 +335,7 @@ public class Enemy :  Actor
 					{
 						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
 						Goal = go;
+						target_CB = go.GetComponent<CharacterBase>;
 					
 						if (hitCollision.collider!=null)
 						{
@@ -392,6 +394,7 @@ public class Enemy :  Actor
 					{
 						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
 						Goal = go;
+						target_CB = go.GetComponent<CharacterBase>;
 					
 						if (hitCollision.collider!=null)
 						{
@@ -461,7 +464,8 @@ public class Enemy :  Actor
 					{
 						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
 						Goal = go;
-					
+						target_CB = go.GetComponent<CharacterBase>;
+						
 						if (hitCollision.collider!=null)
 						{
 							if ( hitCollision.collider.tag == Global.PLAYER_TAG)	
@@ -495,7 +499,12 @@ public class Enemy :  Actor
 				if (m_timeAcum>SHOOT_TIMEOUT)
 				{
 					m_timeAcum = 0;
-					CB.Shoot(m_goal.transform, m_viewDistance);
+				
+					if(target_CB.IsAlive())
+						CB.Shoot(m_goal.transform, m_viewDistance);
+				
+					else
+						ChangeState(STATE_FOLLOW_PLAYER_PATHFINDING);
 				}
 			
 				/*if (m_world!=null)
@@ -632,7 +641,12 @@ public class Enemy :  Actor
 				if (m_timeAcum>SHOOT_TIMEOUT)
 				{
 					m_timeAcum = 0;
-					CB.Shoot(m_goal.transform, m_viewDistance);
+				
+					if(target_CB.IsAlive())
+						CB.Shoot(m_goal.transform, m_viewDistance);
+				
+					else
+						ChangeState(STATE_FOLLOW_PLAYER_PATHFINDING);
 				}
 				/*
 				if (m_world!=null)
