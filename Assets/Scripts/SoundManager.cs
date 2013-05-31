@@ -22,11 +22,12 @@ public class SoundManager : MonoBehaviour {
 			}
 		}
 		
-		foreach(GameObject go in GameObject.FindGameObjectsWithTag("Enemy"))
+		foreach(GameObject ko in GameObject.FindGameObjectsWithTag("Enemy"))
 		{
-			if(go.GetComponent<CharacterSounds>() != null)
+			CharacterSounds CS = ko.GetComponent<CharacterSounds>();
+			if(ko.GetComponent<CharacterSounds>() != null)
 			{
-				soundObjects.Add(new SoundObject(go.GetComponent<CharacterBase>().mystate, CS));
+				soundObjects.Add(new SoundObject(ko.GetComponent<CharacterBase>().mystate, CS));
 			}
 		}
 		
@@ -71,10 +72,10 @@ public class SoundManager : MonoBehaviour {
 
 public class SoundObject
 {
-	public AnimationState soundState;
+	public AnimState soundState;
 	public CharacterSounds sounds;
 	
-	public SoundObject(AnimationState state, CharacterSounds CS)
+	public SoundObject(AnimState state, CharacterSounds CS)
 	{
 		soundState = state;
 		sounds = CS;
