@@ -152,6 +152,7 @@ public class SelectionBehavior : MonoBehaviour
 	                            multiselect_toggle.ClearSelectedTargets();
 	
 	                        ChangeSelectedTarget(targetCastInfo.transform);
+							
 	                    }
 	
 	                    if (targetCastInfo.transform.name.Contains(CreatureAssetName) || targetCastInfo.transform.name.Contains(NPCAssetName))
@@ -222,8 +223,11 @@ public class SelectionBehavior : MonoBehaviour
 	                                    MainGridGenerator.CalculateNewPath(trans, moveto_pos, counter, moveToObj);
 	
 	                                UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(trans, counter++));
+									trans.GetComponent<CharacterSounds>().PlaySelectClip();
 									
 	                            }
+								
+								
 	                        }
 	                        else
 	                        {
@@ -282,7 +286,10 @@ public class SelectionBehavior : MonoBehaviour
         selectedTarget = trans;
 
         if (camMovementBehavior.ControllerToggleType.Equals(ControllerType.RealTimeStratToggle) && !multiselect_toggle.getCurrentlySelected().Contains(selectedTarget))
-            multiselect_toggle.getCurrentlySelected().Add(selectedTarget);
+		{
+			targetCastInfo.transform.GetComponent<CharacterSounds>().PlaySelectClip();
+            multiselect_toggle.getCurrentlySelected().Add(selectedTarget); 
+		}
 
         selectedTarget.FindChild("SelectedIndicator").gameObject.SetActive(true);
 

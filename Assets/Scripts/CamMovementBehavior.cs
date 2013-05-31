@@ -142,9 +142,11 @@ public class CamMovementBehavior : MonoBehaviour
 				
 				//hides the health bar somehow..
 				this.transform.position = new Vector3(selectedTarget.transform.position.x, this.transform.position.y, selectedTarget.transform.position.z);
+				this.transform.GetComponent<AudioListener>().enabled = false;
             }
             else // this happens only when a ControlObject is selected but not actively being followed
             {
+				this.transform.GetComponent<AudioListener>().enabled = true;
                 DoDefaultCameraBehavior();
             }
         }

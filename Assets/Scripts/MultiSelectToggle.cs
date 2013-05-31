@@ -80,6 +80,7 @@ public class MultiSelectToggle : MonoBehaviour
                 {
                     trans.FindChild("SelectedIndicator").gameObject.SetActive(true);
                     currently_selected.Add(trans);
+					trans.GetComponent<CharacterSounds>().PlaySelectClip();
                 }
 
                 if (currently_selected.Count > 0)
