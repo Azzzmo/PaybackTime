@@ -11,13 +11,13 @@ public class CharacterBase : MonoBehaviour {
 	public CharacterType myType;
 	
 	//basic attributes
-	public int strength;
-	public float maxspeed;
-	public int intelligence;
-	public int health;
+	public int strength = 1;
+	public float maxspeed = 1f;
+	public int intelligence = 1;
+	public int health = 1;
 	
-	public int shootDamage;
-	public int meleeDamage;
+	public int shootDamage = 1;
+	public int meleeDamage = 1;
 	
 	//combat timers and variables
 	public float attackRate = 1f;
@@ -35,19 +35,19 @@ public class CharacterBase : MonoBehaviour {
 	public AnimState mystate;
 	
 	//character abilities
-	public bool canDrive;
-	public bool canBreak;
-	public bool canAttack;
-	public bool canShoot;
+	public bool canDrive = false;
+	public bool canBreak = false;
+	public bool canAttack = false;
+	public bool canShoot = false;
 	
 	//set enemy tag name
-	public string enemyTag;
+	public string enemyTag = "Enemy";
 
 	//if object has camera component, it can be controlled
 	private Transform cam;
 	
 	//is character being controlled in first person view
-	public bool isControlled;
+	public bool isControlled = false;
 	
 	//character specific target
 	private Transform mySpecificTarget;
@@ -82,13 +82,25 @@ public class CharacterBase : MonoBehaviour {
 	private float previous_control_x = 0f;
 	private float previous_control_z = 0f;
 	private CharacterController controller;
-
-
+	
+	//sounds
+	CharacterSounds sounds;
+	
+	void GoToHeaven() //take this guy to space, away from enemy range
+	{
+		//yield return new WaitForSeconds(5);
+		Vector3 newPosition = new Vector3(transform.position.x, 1000f, transform.position.z);
+		transform.position = newPosition;
+	}
+	
 	// Use this for initialization
 	void Start () {
 		
 		//movement and position
 		moveDirection = Vector3.zero;
+		
+		//sounds script
+		sounds = GetComponentInChildren<CharacterSounds>();
 		
 		//state change timer to track if animation is being run
 		stateChangeTimer = 0f;
@@ -176,8 +188,10 @@ public class CharacterBase : MonoBehaviour {
 					currentTarget = myTargetsList[myTargetsList.Count - 1];
 			}
 			
-			if(currentTarget != null && canShoot == false)
+			if(currentTarget != null)
 			{
+				//ControlObjHandler CoH = GetComponent<ControlObjHandler>();
+				//CoH.Moveable = false;
 				Attack ();
 			}
 
@@ -209,7 +223,7 @@ public class CharacterBase : MonoBehaviour {
 				{
 					mystate = AnimState.Walking;
 					moveDirection.y -= gravity * Time.deltaTime;
-					controller.Move(moveDirection * Time.deltaTime);
+					controller.Move(moveDirection * maxspeed * Time.deltaTime);
 				}
 				//if in range, attack
 				else if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) <= meleeDistance)
@@ -237,19 +251,32 @@ public class CharacterBase : MonoBehaviour {
 		this.tag = "Dead";
 		mystate = AnimState.Death;
 		Animate(mystate);
-		//Destroy(this.gameObject, 10f);
+		
+		//get out of first person control mode by deactivating the character camera and activating the main camera
+		//disable camera
+		if(isControlled)
+			cam.gameObject.GetComponent<Camera>().enabled = false;
+		
+		//enable main camera
 		
 		//remove control object handler
 		this.GetComponentInChildren<ControlObjHandler>().enabled = false;
 		
+		//Destroy control object handler
+		//Destroy(GetComponentInChildren<ControlObjHandler>().gameObject);
+		
 		//remove camera
-		DestroyObject(cam.gameObject);
+		//DestroyObject(cam.gameObject);
 		
 		//remove selection indicator
 		if(transform.FindChild("SelectedIndicator") != null)
 		{
 			transform.FindChild("SelectedIndicator").gameObject.GetComponent<MeshRenderer>().enabled = false;
 		}
+		
+		Invoke("GoToHeaven", 4f);		
+	
+		//Destroy(this.gameObject, 10f);
 	}
 	
 	//Change
@@ -303,6 +330,7 @@ public class CharacterBase : MonoBehaviour {
 		case AnimState.Attack: 
 			if(stateChangeTimer <= 0)
 			{
+				if(myType == CharacterType.StrongZombi) sounds.PlayAttackClip();
 				theanimation.CrossFade("attack");
 				theanimation["attack"].speed = attackAnimationSpeed;
  				stateChangeTimer = theanimation["attack"].length;
@@ -336,8 +364,9 @@ public class CharacterBase : MonoBehaviour {
 		Debug.Log("idle set");
 	}
 	
+	/* MOVED TO ENEMYTRIGGER.CS
 	//add the enemy to the list of targets when it enters the trigger area
-	void OnTriggerEnter(Collider other)
+	public void OnTriggerEnter(Collider other)
 	{
 		if(other.gameObject.tag == enemyTag)
 		{
@@ -347,7 +376,7 @@ public class CharacterBase : MonoBehaviour {
 	}
 	
 	//remove the enemy from the list of targets when it exits the trigger area
-	void OnTriggerExit(Collider other)
+	public void OnTriggerExit(Collider other)
 	{
 		if(other.gameObject.tag == enemyTag)
 		{
@@ -355,6 +384,19 @@ public class CharacterBase : MonoBehaviour {
 			if(myTargetsList.Contains(other.transform))
 				myTargetsList.Remove(other.transform);
 		}
+	} */
+	
+	public void AddEnemyToList(Transform transforminrange)
+	{
+		if(transforminrange.gameObject.tag == enemyTag)
+			myTargetsList.Add (transforminrange);
+	}
+	
+	public void RemoveEnemyFromList(Transform transforminrange)
+	{
+		if(transforminrange.gameObject.tag == enemyTag)
+			if(myTargetsList.Contains(transforminrange))
+				myTargetsList.Remove(transforminrange);
 	}
 	
 	//shoot script is alternative to enemy characters that can shoot, and is called from enemy script. 
@@ -367,6 +409,7 @@ public class CharacterBase : MonoBehaviour {
 		{
 			//animation.CrossFade("shoot");
 			Debug.Log("shooting");
+			Animate(AnimState.Attack);
 			enemy.gameObject.GetComponent<CharacterBase>().GetHit(shootDamage);
 		}
 		
