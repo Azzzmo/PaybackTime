@@ -7,38 +7,70 @@ public class SoundManager : MonoBehaviour {
 	//public CharacterSounds[] CharacterAudioSources;
 	private List<SoundObject> soundObjects = new List<SoundObject>();
 	
+	private Transform musicSource;
+	public AudioClip[] gameMusic;
+
+	private AudioClip previousMusic;
+	
 	public int minWaitTimeBetweenClips = 0;
 	public int maxWaitTimeBetweenClips = 10;
 
 	// Use this for initialization
 	void Start () 
 	{
+		musicSource = transform.Find("Terrain");
+		musicSource.audio.clip = gameMusic[Random.Range(0, gameMusic.Length)];
+		previousMusic = musicSource.audio.clip;
+		musicSource.audio.Play();
+		
 		foreach(GameObject go in GameObject.FindGameObjectsWithTag("Player"))
 		{
 			CharacterSounds CS = go.GetComponent<CharacterSounds>();
+			CharacterBase CB = go.GetComponent<CharacterBase>();
 			if(CS != null)
 			{
-				soundObjects.Add(new SoundObject(go.GetComponent<CharacterBase>().currentTarget, CS, go.GetComponent<CharacterBase>().myTargetsList));
+				soundObjects.Add(new SoundObject(CB.isAlive, CS, CB.myTargetsList));
 			}
 		}
 		
 		foreach(GameObject ko in GameObject.FindGameObjectsWithTag("Enemy"))
 		{
 			CharacterSounds CS = ko.GetComponent<CharacterSounds>();
+			CharacterBase CB = ko.GetComponent<CharacterBase>();
 			if(ko.GetComponent<CharacterSounds>() != null)
 			{
-				soundObjects.Add(new SoundObject(ko.GetComponent<CharacterBase>().currentTarget, CS, ko.GetComponent<CharacterBase>().myTargetsList));
+				soundObjects.Add(new SoundObject(CB.isAlive, CS, CB.myTargetsList));
 			}
 		}
+		
+	}
+	
+	void PlayMusic()
+	{
+		musicSource.audio.clip = gameMusic[Random.Range(0, gameMusic.Length)];
+		
+		if(previousMusic == musicSource.audio.clip)
+		{
+			PlayMusic();
+		}
+		else
+		{
+			previousMusic = musicSource.audio.clip;
+			musicSource.audio.Play();	
+		}	
 		
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		if(!musicSource.audio.isPlaying)
+			PlayMusic();
+		
+		
 		foreach(SoundObject so in soundObjects)
 		{			
-			if(so.targets.Count == 0)
+			if(so.targets.Count == 0 && so.life)
 			{
 				if(so.sounds != null && !so.sounds.audio.isPlaying && !so.sounds.waitingToPlay)
 				{
@@ -47,7 +79,7 @@ public class SoundManager : MonoBehaviour {
 				}
 			}
 			
-			else if(so.targets.Count > 0)
+			else if(so.targets.Count > 0 && so.life)
 			{
 				if(so.sounds != null && !so.sounds.audio.isPlaying && !so.sounds.waitingToPlay)
 				{
@@ -72,13 +104,13 @@ public class SoundManager : MonoBehaviour {
 
 public class SoundObject
 {
-	public Transform soundTarget;
+	public bool life;
 	public CharacterSounds sounds;
 	public List<Transform> targets;
 	
-	public SoundObject(Transform target, CharacterSounds CS, List<Transform> sTargets)
+	public SoundObject(bool isAlive, CharacterSounds CS, List<Transform> sTargets)
 	{
-		soundTarget = target;
+		life = isAlive;
 		sounds = CS;
 		targets = sTargets;
 	}
