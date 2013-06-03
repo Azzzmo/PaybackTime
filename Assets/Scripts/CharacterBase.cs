@@ -15,6 +15,7 @@ public class CharacterBase : MonoBehaviour {
 	public float maxspeed = 1f;
 	public int intelligence = 1;
 	public int health = 1;
+	public bool isAlive = true;
 	
 	public int shootDamage = 1;
 	public int meleeDamage = 1;
@@ -57,10 +58,9 @@ public class CharacterBase : MonoBehaviour {
 		set { mySpecificTarget = value; }
 	}
 	//list of targets in range
-	List<Transform> myTargetsList = new List<Transform>();
+	public List<Transform> myTargetsList = new List<Transform>();
 	//current target
 	public Transform currentTarget;
-	
 	
 	//animation values	
 	private Animation theanimation;
@@ -274,7 +274,9 @@ public class CharacterBase : MonoBehaviour {
 			transform.FindChild("SelectedIndicator").gameObject.GetComponent<MeshRenderer>().enabled = false;
 		}
 		
-		Invoke("GoToHeaven", 4f);		
+		Invoke("GoToHeaven", 4f);
+		
+		isAlive = false;
 	
 		//Destroy(this.gameObject, 10f);
 	}
