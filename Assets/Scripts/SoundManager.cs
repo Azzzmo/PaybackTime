@@ -18,7 +18,7 @@ public class SoundManager : MonoBehaviour {
 			CharacterSounds CS = go.GetComponent<CharacterSounds>();
 			if(CS != null)
 			{
-				soundObjects.Add(new SoundObject(go.GetComponent<CharacterBase>().currentTarget, CS));
+				soundObjects.Add(new SoundObject(go.GetComponent<CharacterBase>().currentTarget, CS, go.GetComponent<CharacterBase>().myTargetsList));
 			}
 		}
 		
@@ -27,7 +27,7 @@ public class SoundManager : MonoBehaviour {
 			CharacterSounds CS = ko.GetComponent<CharacterSounds>();
 			if(ko.GetComponent<CharacterSounds>() != null)
 			{
-				soundObjects.Add(new SoundObject(ko.GetComponent<CharacterBase>().currentTarget, CS));
+				soundObjects.Add(new SoundObject(ko.GetComponent<CharacterBase>().currentTarget, CS, ko.GetComponent<CharacterBase>().myTargetsList));
 			}
 		}
 		
@@ -38,7 +38,7 @@ public class SoundManager : MonoBehaviour {
 	{
 		foreach(SoundObject so in soundObjects)
 		{			
-			if(so.soundTarget == null)
+			if(so.targets.Count == 0)
 			{
 				if(so.sounds != null && !so.sounds.audio.isPlaying && !so.sounds.waitingToPlay)
 				{
@@ -47,7 +47,7 @@ public class SoundManager : MonoBehaviour {
 				}
 			}
 			
-			else if(so.soundTarget != null)
+			else if(so.targets.Count > 0)
 			{
 				if(so.sounds != null && !so.sounds.audio.isPlaying && !so.sounds.waitingToPlay)
 				{
@@ -74,11 +74,13 @@ public class SoundObject
 {
 	public Transform soundTarget;
 	public CharacterSounds sounds;
+	public List<Transform> targets;
 	
-	public SoundObject(Transform target, CharacterSounds CS)
+	public SoundObject(Transform target, CharacterSounds CS, List<Transform> sTargets)
 	{
 		soundTarget = target;
 		sounds = CS;
+		targets = sTargets;
 	}
 	
 }
