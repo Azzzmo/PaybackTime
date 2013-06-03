@@ -366,32 +366,12 @@ public class CharacterBase : MonoBehaviour {
 		Debug.Log("idle set");
 	}
 	
-	/* MOVED TO ENEMYTRIGGER.CS
-	//add the enemy to the list of targets when it enters the trigger area
-	public void OnTriggerEnter(Collider other)
-	{
-		if(other.gameObject.tag == enemyTag)
-		{
-			//Debug.Log("Enemy added in list of enemies");
-			myTargetsList.Add(other.transform);
-		}
-	}
-	
-	//remove the enemy from the list of targets when it exits the trigger area
-	public void OnTriggerExit(Collider other)
-	{
-		if(other.gameObject.tag == enemyTag)
-		{
-			//Debug.Log("Enemy removed from list of enemies");
-			if(myTargetsList.Contains(other.transform))
-				myTargetsList.Remove(other.transform);
-		}
-	} */
-	
 	public void AddEnemyToList(Transform transforminrange)
 	{
 		if(transforminrange.gameObject.tag == enemyTag)
 			myTargetsList.Add (transforminrange);
+		
+		Debug.Log("enemy added to list");
 	}
 	
 	public void RemoveEnemyFromList(Transform transforminrange)
