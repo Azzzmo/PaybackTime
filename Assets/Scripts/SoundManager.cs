@@ -7,7 +7,7 @@ public class SoundManager : MonoBehaviour {
 	//public CharacterSounds[] CharacterAudioSources;
 	private List<SoundObject> soundObjects = new List<SoundObject>();
 	
-	private Transform musicSource;
+	public Transform musicSource;
 	public AudioClip[] gameMusic;
 
 	private AudioClip previousMusic;
@@ -18,7 +18,7 @@ public class SoundManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		musicSource = transform.Find("Terrain");
+		//musicSource = transform.Find("Terrain");
 		musicSource.audio.clip = gameMusic[Random.Range(0, gameMusic.Length)];
 		previousMusic = musicSource.audio.clip;
 		musicSource.audio.Play();

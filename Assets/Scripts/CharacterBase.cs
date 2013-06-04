@@ -190,8 +190,6 @@ public class CharacterBase : MonoBehaviour {
 			
 			if(currentTarget != null)
 			{
-				//ControlObjHandler CoH = GetComponent<ControlObjHandler>();
-				//CoH.Moveable = false;
 				Attack ();
 			}
 
@@ -222,7 +220,7 @@ public class CharacterBase : MonoBehaviour {
 				if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) > meleeDistance)
 				{
 					mystate = AnimState.Walking;
-					moveDirection.y -= gravity * Time.deltaTime;
+					//moveDirection.y -= gravity * Time.deltaTime;
 					controller.Move(moveDirection * maxspeed * Time.deltaTime);
 				}
 				//if in range, attack
@@ -257,16 +255,9 @@ public class CharacterBase : MonoBehaviour {
 		if(isControlled)
 			cam.gameObject.GetComponent<Camera>().enabled = false;
 		
-		//enable main camera
-		
 		//remove control object handler
-		this.GetComponentInChildren<ControlObjHandler>().enabled = false;
-		
-		//Destroy control object handler
-		//Destroy(GetComponentInChildren<ControlObjHandler>().gameObject);
-		
-		//remove camera
-		//DestroyObject(cam.gameObject);
+		if(this.GetComponentInChildren<ControlObjHandler>() != null)
+			this.GetComponentInChildren<ControlObjHandler>().enabled = false;
 		
 		//remove selection indicator
 		if(transform.FindChild("SelectedIndicator") != null)
@@ -278,7 +269,6 @@ public class CharacterBase : MonoBehaviour {
 		
 		isAlive = false;
 	
-		//Destroy(this.gameObject, 10f);
 	}
 	
 	//Change
@@ -302,76 +292,77 @@ public class CharacterBase : MonoBehaviour {
 	
 	void Animate(AnimState mystate)
 	{
-		//idle, death, walking not included in state change, as they do not need to finish, but attack, get hit, change need to use timer. If dead, infinite
-		stateChangeTimer -= Time.deltaTime;
-
-		switch (mystate) {
-		case AnimState.Idle: 
-			if(stateChangeTimer <= 0) 
-			{
-				theanimation.CrossFade("idle");
-				theanimation["idle"].speed = idleAnimationSpeed;
+		if(theanimation != null)
+		{
+			//idle, death, walking not included in state change, as they do not need to finish, but attack, get hit, change need to use timer. If dead, infinite
+			stateChangeTimer -= Time.deltaTime;
+	
+			switch (mystate) {
+			case AnimState.Idle: 
+				if(stateChangeTimer <= 0) 
+				{
+					theanimation.CrossFade("idle");
+					theanimation["idle"].speed = idleAnimationSpeed;
+				}
+				break;
+			case AnimState.Walking:
+				theanimation.CrossFade ("walk");
+				theanimation["walk"].speed = walkAnimationSpeed;
+				break;
+			case AnimState.Reversing: 
+				theanimation.CrossFade("walk");
+				theanimation["walk"].speed = -1 * walkAnimationSpeed;
+				break; 
+			case AnimState.Running: 
+				theanimation.CrossFade ("run");
+				theanimation["run"].speed = runAnimationSpeed;
+				break;
+			case AnimState.Sidestepping: 
+				theanimation.CrossFade ("walk"); //to be changed
+				theanimation["walk"].speed = sidestepAnimationSpeed;
+				break;
+			case AnimState.Attack: 
+				if(stateChangeTimer <= 0)
+				{
+					if(myType == CharacterType.StrongZombi) sounds.PlayAttackClip();
+					theanimation.CrossFade("attack");
+					theanimation["attack"].speed = attackAnimationSpeed;
+	 				stateChangeTimer = theanimation["attack"].length;
+				}
+				break;
+			case AnimState.Death: 
+				theanimation.CrossFade("death");
+				theanimation["death"].speed = deathAnimationSpeed;	
+				stateChangeTimer = theanimation["death"].length + 1000f;
+				break;
+			case AnimState.GetHit: if(stateChangeTimer <= 0)
+				{
+					theanimation.CrossFade("gethit");
+					theanimation["gethit"].speed = gethitAnimationSpeed;
+					stateChangeTimer = theanimation["gethit"].length;
+				}
+				break;
+			default: 
+				if(stateChangeTimer <= 0)
+				{
+					theanimation.CrossFade ("idle");
+				 	theanimation["idle"].speed = idleAnimationSpeed;
+				}
+				break;
 			}
-			break;
-		case AnimState.Walking:
-			theanimation.CrossFade ("walk");
-			theanimation["walk"].speed = walkAnimationSpeed;
-			break;
-		case AnimState.Reversing: 
-			theanimation.CrossFade("walk");
-			theanimation["walk"].speed = -1 * walkAnimationSpeed;
-			break; 
-		case AnimState.Running: 
-			theanimation.CrossFade ("run");
-			theanimation["run"].speed = runAnimationSpeed;
-			break;
-		case AnimState.Sidestepping: 
-			theanimation.CrossFade ("walk"); //to be changed
-			theanimation["walk"].speed = sidestepAnimationSpeed;
-			break;
-		case AnimState.Attack: 
-			if(stateChangeTimer <= 0)
-			{
-				if(myType == CharacterType.StrongZombi) sounds.PlayAttackClip();
-				theanimation.CrossFade("attack");
-				theanimation["attack"].speed = attackAnimationSpeed;
- 				stateChangeTimer = theanimation["attack"].length;
-			}
-			break;
-		case AnimState.Death: 
-			theanimation.CrossFade("death");
-			theanimation["death"].speed = deathAnimationSpeed;	
-			stateChangeTimer = theanimation["death"].length + 1000f;
-			break;
-		case AnimState.GetHit: if(stateChangeTimer <= 0)
-			{
-				theanimation.CrossFade("gethit");
-				theanimation["gethit"].speed = gethitAnimationSpeed;
-				stateChangeTimer = theanimation["gethit"].length;
-			}
-			break;
-		default: 
-			if(stateChangeTimer <= 0)
-			{
-				theanimation.CrossFade ("idle");
-			 	theanimation["idle"].speed = idleAnimationSpeed;
-			}
-			break;
 		}
 	}
 	
 	void SetIdle()
 	{
 		mystate = AnimState.Idle;
-		Debug.Log("idle set");
+		//Debug.Log("idle set");
 	}
 	
 	public void AddEnemyToList(Transform transforminrange)
 	{
 		if(transforminrange.gameObject.tag == enemyTag)
 			myTargetsList.Add (transforminrange);
-		
-		Debug.Log("enemy added to list");
 	}
 	
 	public void RemoveEnemyFromList(Transform transforminrange)
