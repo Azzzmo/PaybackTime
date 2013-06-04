@@ -420,6 +420,26 @@ public class GridGenerator : MonoBehaviour
         if (initsquare[0] != -1 && initsquare[1] != -1 && finalsquare[0] != -1 && finalsquare[1] != -1)
             pathFinder.CalculateNewPath(getDesiredGridSquare(initsquare[0], initsquare[1]), getDesiredGridSquare(finalsquare[0], finalsquare[1]));
     }
+	
+	 /// <summary>
+    /// Wrapper Around PathFinder.CalculateNewPath for Calculating the Movement Path Given a Unity3D Transform Object and a Final World Position.
+    /// </summary>
+    /// <param name="moveObj">The Unity3D Transform Object to Move.</param>
+    /// <param name="final">The Final Position.</param>
+    public void CalculateNewPath(Transform moveObj, Vector3 final)
+    {
+        int[] initsquare = DetermineGridCheckPoints(moveObj.position);
+        int[] finalsquare = DetermineGridCheckPoints(final);
+		
+		bool somethingInSquares = initsquare[0] != -1 && initsquare[1] != -1 && finalsquare[0] != -1 && finalsquare[1] != -1;
+		
+		GridSquare initGridSquare = getDesiredGridSquare(initsquare[0], initsquare[1]);
+		GridSquare finalGridSquare = getDesiredGridSquare(finalsquare[0], finalsquare[1]);
+
+        pathFinder.CalculateNewPath(moveObj, initGridSquare, finalGridSquare);
+
+
+    }
 
     /// <summary>
     /// Wrapper Around PathFinder.CalculateNewPath for Calculating the Movement Path Given a Unity3D Transform Object and a Final World Position.

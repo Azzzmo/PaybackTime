@@ -252,6 +252,14 @@ public class SelectionBehavior : MonoBehaviour
 
         UpdatePositionToggle.UpdateTogglePositions();
     }
+	
+	public void CaculateNewPathForOne(Transform trans, Vector3 position)
+	{
+		if (moveto_pos != previous_moveto_pos)
+	       MainGridGenerator.CalculateNewPath(trans, position);
+		
+		UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(trans, 0));
+	}
 
     /// <summary>
     /// Changes the Selected Target to a Different Unity3D Transform Object, Deactivating Old and Activating New.
