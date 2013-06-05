@@ -59,6 +59,7 @@ public class CharacterBase : MonoBehaviour {
 	}
 	//list of targets in range
 	public List<Transform> myTargetsList = new List<Transform>();
+	private List<Transform> enemyremovelist = new List<Transform>();
 	//current target
 	public Transform currentTarget;
 	
@@ -81,7 +82,7 @@ public class CharacterBase : MonoBehaviour {
 	//last tranform position
 	private float previous_control_x = 0f;
 	private float previous_control_z = 0f;
-	private CharacterController controller;
+	//private CharacterController controller;
 	
 	//sounds
 	CharacterSounds sounds;
@@ -112,15 +113,15 @@ public class CharacterBase : MonoBehaviour {
 		Invoke("SetIdle", Random.value * 10);
 		//mystate = AnimState.Idle;
 		
-		controller = GetComponentInChildren<CharacterController>(); //assume there's a character controller, and find it
+		//controller = GetComponentInChildren<CharacterController>(); //assume there's a character controller, and find it
 		theanimation = GetComponentInChildren<Animation>(); //assume there's an animation component, and find it
 		
 		//if gameobject has a "Character Camera" enabled, the object is being controlled by keyboard
 		cam = transform.FindChild("Character Camera");
 		
 		//set current tranform location to trackers. If object is moved in RTS mode, the value changes, and default walk animation is played
-		previous_control_x = controller.transform.position.x;
-		previous_control_z = controller.transform.position.z;
+		previous_control_x = transform.position.x;
+		previous_control_z = transform.position.z;
 	}
 	
 	// Update is called once per frame
@@ -161,13 +162,12 @@ public class CharacterBase : MonoBehaviour {
 					mystate = AnimState.Idle;
 			
 			
-			//if controller has moved due to outside RTS control, set animation state accordingly
-	 		if((controller.transform.position.x != previous_control_x || controller.transform.position.z != previous_control_z) && isControlled == false)
+			//if transform has moved due to outside RTS control, set animation state accordingly
+	 		if((transform.position.x != previous_control_x || transform.position.z != previous_control_z) && isControlled == false)
 			{
 				mystate = AnimState.Walking;
 				//Debug.Log("control object moving");
 			}	
-			
 			
 			//Check to see if there are any enemies in range, or a specific enemy to attack set
 			if(mySpecificTarget != null && myTargetsList.Contains(mySpecificTarget) && mySpecificTarget.gameObject.GetComponent<CharacterBase>().IsAlive())
@@ -176,11 +176,17 @@ public class CharacterBase : MonoBehaviour {
 			}
 			else if(myTargetsList.Count > 0)
 			{
+				enemyremovelist.Clear();
 				//check all enemies in target list that they are not dead, and if they are, remove from list
 				foreach(Transform enemy in myTargetsList)
 				{
 					if(!enemy.gameObject.GetComponent<CharacterBase>().IsAlive())
-						myTargetsList.Remove(enemy);
+						enemyremovelist.Add(enemy);
+				}
+				
+				foreach(Transform x in enemyremovelist)
+				{
+					myTargetsList.Remove(x);
 				}
 				
 				//pick a target to attack (last of the list)
@@ -199,8 +205,8 @@ public class CharacterBase : MonoBehaviour {
 		} //end if(IsAlive());
 		
 		//record current position for next round to check if it has changed between rounds
-		previous_control_x = controller.transform.position.x;
-		previous_control_z = controller.transform.position.z;
+		previous_control_x = transform.position.x;
+		previous_control_z = transform.position.z;
 	
 	}
 	
@@ -216,12 +222,14 @@ public class CharacterBase : MonoBehaviour {
 				moveDirection = currentTarget.position - transform.position;//this.transform.forward;
 				moveDirection.Normalize();
 				moveDirection *= maxspeed;
-				
+			
 				if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) > meleeDistance)
 				{
 					mystate = AnimState.Walking;
+					moveDirection.y = 0f;
 					//moveDirection.y -= gravity * Time.deltaTime;
-					controller.Move(moveDirection * maxspeed * Time.deltaTime);
+					//controller.Move(moveDirection * maxspeed * Time.deltaTime);
+					transform.Translate(moveDirection * maxspeed * Time.deltaTime, Space.World);
 				}
 				//if in range, attack
 				else if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) <= meleeDistance)
@@ -315,11 +323,11 @@ public class CharacterBase : MonoBehaviour {
 				break; 
 			case AnimState.Running: 
 				theanimation.CrossFade ("run");
-				theanimation["run"].speed = runAnimationSpeed;
+				theanimation["run"].speed = runAnimationSpeed / runAnimationSpeed;
 				break;
 			case AnimState.Sidestepping: 
 				theanimation.CrossFade ("walk"); //to be changed
-				theanimation["walk"].speed = sidestepAnimationSpeed;
+				theanimation["walk"].speed = sidestepAnimationSpeed / sidestepAnimationSpeed;
 				break;
 			case AnimState.Attack: 
 				if(stateChangeTimer <= 0)
@@ -327,7 +335,7 @@ public class CharacterBase : MonoBehaviour {
 					if(myType == CharacterType.StrongZombi) sounds.PlayAttackClip();
 					theanimation.CrossFade("attack");
 					theanimation["attack"].speed = attackAnimationSpeed;
-	 				stateChangeTimer = theanimation["attack"].length;
+	 				stateChangeTimer = theanimation["attack"].length / attackAnimationSpeed;
 				}
 				break;
 			case AnimState.Death: 
@@ -339,14 +347,14 @@ public class CharacterBase : MonoBehaviour {
 				{
 					theanimation.CrossFade("gethit");
 					theanimation["gethit"].speed = gethitAnimationSpeed;
-					stateChangeTimer = theanimation["gethit"].length;
+					stateChangeTimer = theanimation["gethit"].length / gethitAnimationSpeed;
 				}
 				break;
 			default: 
 				if(stateChangeTimer <= 0)
 				{
 					theanimation.CrossFade ("idle");
-				 	theanimation["idle"].speed = idleAnimationSpeed;
+				 	theanimation["idle"].speed = idleAnimationSpeed / idleAnimationSpeed;
 				}
 				break;
 			}
