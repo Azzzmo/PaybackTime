@@ -23,7 +23,7 @@ public class Enemy :  Actor
 	public const int STATE_DIE    					= 6;
 	public const int STATE_END    					= 7;	
 	
-	public const float SHOOT_TIMEOUT = 1.5f;
+	public float SHOOT_TIMEOUT = 1.5f;
 	public const float SHOOT_SPEED 	 = 20.0f;
 	
 	public const int LIFE_ENEMY 	 = 100;	

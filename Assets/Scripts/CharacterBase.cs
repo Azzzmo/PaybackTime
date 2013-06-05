@@ -32,7 +32,7 @@ public class CharacterBase : MonoBehaviour {
 	public float gravity;
 	public float meleeDistance;
 	
-	//character states todo: enum - use in character animation script
+	//character states
 	public AnimState mystate;
 	
 	//character abilities
@@ -99,7 +99,7 @@ public class CharacterBase : MonoBehaviour {
 		
 		//movement and position
 		moveDirection = Vector3.zero;
-		
+
 		//sounds script
 		sounds = GetComponentInChildren<CharacterSounds>();
 		
@@ -219,16 +219,13 @@ public class CharacterBase : MonoBehaviour {
 		{
 				//move character to range
 				transform.LookAt(new Vector3(currentTarget.position.x, transform.position.y, currentTarget.position.z));
-				moveDirection = currentTarget.position - transform.position;//this.transform.forward;
+				moveDirection = currentTarget.position - transform.position;
 				moveDirection.Normalize();
-				moveDirection *= maxspeed;
-			
+
 				if(Vector3.Distance(new Vector3(currentTarget.position.x, 0f, currentTarget.position.z), new Vector3(transform.position.x, 0f, transform.position.z)) > meleeDistance)
 				{
 					mystate = AnimState.Walking;
 					moveDirection.y = 0f;
-					//moveDirection.y -= gravity * Time.deltaTime;
-					//controller.Move(moveDirection * maxspeed * Time.deltaTime);
 					transform.Translate(moveDirection * maxspeed * Time.deltaTime, Space.World);
 				}
 				//if in range, attack
