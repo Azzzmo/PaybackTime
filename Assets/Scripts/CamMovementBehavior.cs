@@ -319,7 +319,7 @@ public class CamMovementBehavior : MonoBehaviour
 			}
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
             selectionBehavior.SendMessage("ExecuteEscapeSequence");
     }
 
