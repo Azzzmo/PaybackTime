@@ -222,7 +222,7 @@ public class SelectionBehavior : MonoBehaviour
 	                                if (moveto_pos != previous_moveto_pos)
 	                                    MainGridGenerator.CalculateNewPath(trans, moveto_pos, counter, moveToObj);
 	
-	                                UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(trans, counter++));
+	                                UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(trans, counter++, (int)trans.GetComponent<CharacterBase>().maxspeed));
 									trans.GetComponent<CharacterSounds>().PlaySelectClip();
 									
 	                            }
@@ -235,7 +235,7 @@ public class SelectionBehavior : MonoBehaviour
 	                            if (moveto_pos != previous_moveto_pos)
 	                                MainGridGenerator.CalculateNewPath(selectedTarget, moveto_pos, counter, moveToObj);
 	
-	                            UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(selectedTarget, 1));
+	                            UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(selectedTarget, 1, (int)selectedTarget.GetComponent<CharacterBase>().maxspeed));
 	                        }
 	
 	                        previous_moveto_pos = moveto_pos;
@@ -258,7 +258,7 @@ public class SelectionBehavior : MonoBehaviour
 		if (moveto_pos != previous_moveto_pos)
 	       MainGridGenerator.CalculateNewPath(trans, position);
 		
-		UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(trans, 0));
+		UpdatePositionToggle.AddUpdaterToggle(new UpdatePositionToggle(trans, 0, (int)trans.GetComponent<CharacterBase>().maxspeed));
 	}
 
     /// <summary>
@@ -402,6 +402,7 @@ public class SelectionBehavior : MonoBehaviour
 		
 		//Move speed of the all units. Done by Tuukka.
 		public static int moveSpeed = 30;
+		private int ownSpeed = 30;
 		
 
         /// <summary>
@@ -409,7 +410,7 @@ public class SelectionBehavior : MonoBehaviour
         /// </summary>
         /// <param name="ref_obj">The Unity3D Transform Object.</param>
         /// <param name="c">The Count of this UpdatePositionToggle (This will be used for Formations).</param>
-        public UpdatePositionToggle(Transform ref_obj, int c)
+        public UpdatePositionToggle(Transform ref_obj, int c, int speed)
         {
             update_target = ref_obj;
             //update_position = new_pos;
@@ -417,6 +418,8 @@ public class SelectionBehavior : MonoBehaviour
 
             toggled_movement = true;
             //angle_adjusted = true;
+			
+			ownSpeed = speed;
         }
 
         /// <summary>
@@ -462,7 +465,9 @@ public class SelectionBehavior : MonoBehaviour
 
                     if (selected.isMoveable())
                     {
-                        selected.Position = selected.Position + (selected.destinationPosition() - selected.Position).normalized * (moveSpeed * Time.deltaTime);
+						
+						
+                        selected.Position = selected.Position + (selected.destinationPosition() - selected.Position).normalized * (selected.ownSpeed * Time.deltaTime);
 
                         //if (selected.angle_adjusted)
                         //{

@@ -19,6 +19,7 @@ public class VehicleHandler : MonoBehaviour {
 		if(Input.GetButtonUp("Jump") && charactersIn.Count > 0)
 		{
 			int i = 5;
+			setControlling(false);
 			
 			foreach(Transform tr in charactersIn)
 			{
@@ -27,7 +28,7 @@ public class VehicleHandler : MonoBehaviour {
 				i += 2;
 			}
 			
-			setControlling(false);
+			
 		}
 	
 	}
