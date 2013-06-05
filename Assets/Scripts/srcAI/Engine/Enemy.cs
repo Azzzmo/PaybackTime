@@ -337,7 +337,7 @@ public class Enemy :  Actor
 					//Check every PC if it is on the enemys view cone.
 					foreach(GameObject go in m_goals)
 					{
-						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
+						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, false);
 						Goal = go;
 						target_CB = go.GetComponent<CharacterBase>();
 						
@@ -358,7 +358,7 @@ public class Enemy :  Actor
 				}
 				else
 				{
-					hitCollision = UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, true);
+					hitCollision = UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, false);
 				}			
 				break;
 
@@ -397,7 +397,7 @@ public class Enemy :  Actor
 					//Check every PC if it is on the enemys view cone.
 					foreach(GameObject go in m_goals)
 					{
-						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
+						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, false);
 						Goal = go;
 						target_CB = go.GetComponent<CharacterBase>();
 					
@@ -417,7 +417,7 @@ public class Enemy :  Actor
 				}
 				else
 				{
-					hitCollision = UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, true);
+					hitCollision = UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, false);
 				}			
 				break;
 
@@ -467,7 +467,7 @@ public class Enemy :  Actor
 					//Check every PC if it is on the enemys view cone.
 					foreach(GameObject go in m_goals)
 					{
-						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, true);
+						hitCollision= UpdateVision(go.transform.position, m_viewDistance, m_angleView, false);
 						Goal = go;
 						target_CB = go.GetComponent<CharacterBase>();
 						
@@ -487,7 +487,7 @@ public class Enemy :  Actor
 				}
 				else
 				{
-					hitCollision = UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, true);
+					hitCollision = UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, false);
 				}			
 				break;
 
@@ -538,7 +538,7 @@ public class Enemy :  Actor
 					}
 				
 					// PLAYER LOST DETECTION
-					hitCollision = UpdateVision(Goal.transform.position, m_viewDistance, m_angleView, true);
+					hitCollision = UpdateVision(Goal.transform.position, m_viewDistance, m_angleView, false);
 					if (hitCollision.collider!=null)
 					{			
 						if ( hitCollision.collider.tag == Global.WALL_TAG)	
@@ -556,7 +556,7 @@ public class Enemy :  Actor
 				}
 				else
 				{
-					UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, true);
+					UpdateVision(new Vector3(-1,-1,-1), m_viewDistance, m_angleView, false);
 					ChangeState(STATE_WAYPOINTS);
 				}
 				break;
@@ -633,7 +633,7 @@ public class Enemy :  Actor
 				}
 									
 				// LINE CLEAR TO PLAYER
-				hitCollision = UpdateVision(Goal.transform.position, m_viewDistance, m_angleView, true);
+				hitCollision = UpdateVision(Goal.transform.position, m_viewDistance, m_angleView, false);
 				if (hitCollision.collider!=null)
 				{
 					if (hitCollision.collider.tag == Global.PLAYER_TAG)
@@ -681,7 +681,7 @@ public class Enemy :  Actor
 				if (Goal != null)
 				{
 					Global.LogicAlineation(this, new Vector2(Goal.transform.position.x, Goal.transform.position.z), 0f, m_speedRotation);				
-					hitCollision = UpdateVision(Goal.transform.position, m_viewDistance, m_angleView, true);
+					hitCollision = UpdateVision(Goal.transform.position, m_viewDistance, m_angleView, false);
 					float distPlayer = Vector3.Distance(Position, Goal.transform.position);
 					if (distPlayer> (5*m_viewDistance)/4)
 					{
