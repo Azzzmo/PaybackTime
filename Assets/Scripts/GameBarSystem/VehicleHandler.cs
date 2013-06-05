@@ -20,6 +20,7 @@ public class VehicleHandler : MonoBehaviour {
 		{
 			int i = 5;
 			setControlling(false);
+			charactersIn.Clear();
 			
 			foreach(Transform tr in charactersIn)
 			{
