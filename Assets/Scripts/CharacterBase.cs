@@ -170,7 +170,7 @@ public class CharacterBase : MonoBehaviour {
 			}	
 			
 			//Check to see if there are any enemies in range, or a specific enemy to attack set
-			if(mySpecificTarget != null && myTargetsList.Contains(mySpecificTarget) && mySpecificTarget.gameObject.GetComponent<CharacterBase>().IsAlive())
+			if(mySpecificTarget != null /*&& myTargetsList.Contains(mySpecificTarget)*/ && mySpecificTarget.gameObject.GetComponent<CharacterBase>().IsAlive())
 			{
 				currentTarget = mySpecificTarget;
 			}
@@ -235,7 +235,7 @@ public class CharacterBase : MonoBehaviour {
 						if(attackTimer >= attackRate && currentTarget.gameObject.GetComponent<CharacterBase>().IsAlive())
 						{
 							mystate = AnimState.Attack;
-							Animate(mystate);
+							Animate(AnimState.Attack);
 							Debug.Log("attacking");
 							currentTarget.gameObject.GetComponent<CharacterBase>().GetHit(meleeDamage);
 							attackTimer = 0f;
