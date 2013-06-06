@@ -37,7 +37,7 @@ public class InteractionHandler : MonoBehaviour {
 						print("Kuski käsketty!");
 						moveToCar.Add(new MoveToCarObj(trans, CB, TargetCastInfo.transform.position));
 					}
-					else
+					else if(TargetCastInfo.transform.tag == "Enemy")
 					{
 						CB.MyTarget = TargetCastInfo.transform;
 					}
