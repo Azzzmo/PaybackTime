@@ -64,7 +64,8 @@ public class InteractionHandler : MonoBehaviour {
 		{
 			MTCO.ownCB.mystate = AnimState.Walking;
 			//moveDirection.y -= gravity * Time.deltaTime;
-			MTCO.ownTrans.GetComponent<CharacterController>().Move(moveDirection * MTCO.ownCB.maxspeed * Time.deltaTime);
+			//MTCO.ownTrans.GetComponent<CharacterController>().Move(moveDirection * MTCO.ownCB.maxspeed * Time.deltaTime);
+			MTCO.ownTrans.Translate(moveDirection * MTCO.ownCB.maxspeed * Time.deltaTime, Space.World);
 		}
 		//if in range, attack
 		else if(Vector3.Distance(new Vector3(MTCO.ownMoveTo.x, 0f, MTCO.ownMoveTo.z), new Vector3(MTCO.ownTrans.position.x, 0f, MTCO.ownTrans.position.z)) <= MTCO.ownCB.meleeDistance +3)
