@@ -16,7 +16,7 @@ public class InteractionHandler : MonoBehaviour {
 	void Start () 
 	{	
 		selectionBehaviour = GameObject.Find("Main Camera").GetComponent<SelectionBehavior>();	
-		wagen = GameObject.Find("Car").transform.GetComponent<VehicleHandler>();
+		wagen = GameObject.FindGameObjectWithTag("Car").transform.GetComponent<VehicleHandler>();
 	}
 	
 	// Update is called once per frame
