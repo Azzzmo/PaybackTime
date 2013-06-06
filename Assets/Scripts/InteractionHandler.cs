@@ -42,6 +42,11 @@ public class InteractionHandler : MonoBehaviour {
 						print ("Spesifinen targetti annettu: " + TargetCastInfo.transform.name);
 						CB.MyTarget = TargetCastInfo.transform;
 					}
+					else if (TargetCastInfo.transform.tag == "Brakable" && CB.myType == CharacterType.StrongZombi)
+					{
+						print ("Spesifinen targetti annettu: " + TargetCastInfo.transform.name);
+						CB.MyTarget = TargetCastInfo.transform;
+					}
 				}
 			}
 		}

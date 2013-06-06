@@ -373,11 +373,13 @@ public class CharacterBase : MonoBehaviour {
 	{
 		if(transforminrange.gameObject.tag == enemyTag && transforminrange.gameObject.GetComponent<CharacterBase>() != null)
 			myTargetsList.Add (transforminrange);
+		else if(transforminrange.gameObject.tag == "Brakable" && transforminrange.gameObject.GetComponent<CharacterBase>() != null && myType == CharacterType.StrongZombi)
+			myTargetsList.Add (transforminrange);
 	}
 	
 	public void RemoveEnemyFromList(Transform transforminrange)
 	{
-		if(transforminrange.gameObject.tag == enemyTag)
+		if(transforminrange.gameObject.tag == enemyTag || transforminrange.gameObject.tag == "Brakable")
 			if(myTargetsList.Contains(transforminrange))
 				myTargetsList.Remove(transforminrange);
 	}
