@@ -290,6 +290,11 @@ public class CharacterBase : MonoBehaviour {
 		mystate = AnimState.GetHit;
 		Debug.Log ( this.name + " got hit");
 		
+		if(myType == CharacterType.Nazi && mySpecificTarget == null)
+		{
+			transform.RotateAroundLocal(new Vector3(0,1,0), 180f);	
+		}
+		
 		Animate(mystate);
 		health -= damage;
 		if(health <= 0)

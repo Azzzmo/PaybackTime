@@ -39,6 +39,7 @@ public class InteractionHandler : MonoBehaviour {
 					}
 					else if(TargetCastInfo.transform.tag == "Enemy")
 					{
+						print ("Spesifinen targetti annettu: " + TargetCastInfo.transform.name);
 						CB.MyTarget = TargetCastInfo.transform;
 					}
 				}
