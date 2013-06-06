@@ -180,8 +180,9 @@ public class CharacterBase : MonoBehaviour {
 				//check all enemies in target list that they are not dead, and if they are, remove from list
 				foreach(Transform enemy in myTargetsList)
 				{
-					if(!enemy.gameObject.GetComponent<CharacterBase>().IsAlive())
-						enemyremovelist.Add(enemy);
+					if(enemy.gameObject.GetComponent<CharacterBase>() != null)
+						if(!enemy.gameObject.GetComponent<CharacterBase>().IsAlive())
+							enemyremovelist.Add(enemy);	
 				}
 				
 				foreach(Transform x in enemyremovelist)
@@ -366,7 +367,7 @@ public class CharacterBase : MonoBehaviour {
 	
 	public void AddEnemyToList(Transform transforminrange)
 	{
-		if(transforminrange.gameObject.tag == enemyTag)
+		if(transforminrange.gameObject.tag == enemyTag && transforminrange.gameObject.GetComponent<CharacterBase>() != null)
 			myTargetsList.Add (transforminrange);
 	}
 	
