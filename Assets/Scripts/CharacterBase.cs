@@ -307,7 +307,6 @@ public class CharacterBase : MonoBehaviour {
 		{
 			//idle, death, walking not included in state change, as they do not need to finish, but attack, get hit, change need to use timer. If dead, infinite
 			stateChangeTimer -= Time.deltaTime;
-	
 			switch (mystate) {
 			case AnimState.Idle: 
 				if(stateChangeTimer <= 0) 
@@ -320,17 +319,17 @@ public class CharacterBase : MonoBehaviour {
 				theanimation.CrossFade ("walk");
 				theanimation["walk"].speed = walkAnimationSpeed;
 				break;
-			case AnimState.Reversing: 
-				theanimation.CrossFade("walk");
-				theanimation["walk"].speed = -1 * walkAnimationSpeed;
+			case AnimState.Reversing:
+				theanimation.CrossFade ("walk");
+				theanimation["walk"].speed = walkAnimationSpeed;
 				break; 
 			case AnimState.Running: 
 				theanimation.CrossFade ("run");
-				theanimation["run"].speed = runAnimationSpeed / runAnimationSpeed;
+				theanimation["run"].speed = runAnimationSpeed;
 				break;
 			case AnimState.Sidestepping: 
 				theanimation.CrossFade ("walk"); //to be changed
-				theanimation["walk"].speed = sidestepAnimationSpeed / sidestepAnimationSpeed;
+				theanimation["walk"].speed = sidestepAnimationSpeed;
 				break;
 			case AnimState.Attack: 
 				if(stateChangeTimer <= 0)
@@ -357,7 +356,7 @@ public class CharacterBase : MonoBehaviour {
 				if(stateChangeTimer <= 0)
 				{
 					theanimation.CrossFade ("idle");
-				 	theanimation["idle"].speed = idleAnimationSpeed / idleAnimationSpeed;
+				 	theanimation["idle"].speed = idleAnimationSpeed;
 				}
 				break;
 			}
