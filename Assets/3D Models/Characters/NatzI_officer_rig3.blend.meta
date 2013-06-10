@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6a49d9ffade64c34ca65d77993847232
+guid: a5e8dfba9d784aa4fa959969eaae47a6
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
@@ -59,10 +59,10 @@ ModelImporter:
     7400000: Default Take
     7400002: all
     7400004: death
-    7400006: idle
-    7400008: attack
-    7400010: walk
-    7400012: gethit
+    7400006: gethit
+    7400008: idle
+    7400010: attack
+    7400012: walk
     9500000: //RootNode
     11100000: //RootNode
     13700000: Plane_011
@@ -82,7 +82,7 @@ ModelImporter:
     - name: Default Take
       takeName: Default Take
       firstFrame: -1
-      lastFrame: 249
+      lastFrame: 44
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -125,6 +125,27 @@ ModelImporter:
       takeName: Death
       firstFrame: 0
       lastFrame: 119
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      transformMask: []
+    - name: gethit
+      takeName: get_hit
+      firstFrame: 0
+      lastFrame: 44
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
