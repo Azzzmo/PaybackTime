@@ -29,21 +29,6 @@ public class MouseLook : MonoBehaviour {
 	public float maximumY = 60F;
 
 	float rotationY = 0F;
-	
-	/// <summary>
-	/// Activates the 3rd person controlls when going in the 3rd person view. Done by Tuukka. 
-	/// </summary>
-	void OnEnable()
-	{
-		gameObject.GetComponent<CharacterMotor>().canControl = true;
-	}
-	/// <summary>
-	/// Deactivates the 3rd person controlls when going out of the 3rd person view. Done by Tuukka. 
-	/// </summary>
-	void OnDisable()
-	{
-		gameObject.GetComponent<CharacterMotor>().canControl = false;
-	}
 
 	void Update ()
 	{
