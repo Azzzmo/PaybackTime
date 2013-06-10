@@ -79,7 +79,7 @@ public class VehicleHandler : MonoBehaviour {
 	{
 		if(!audio.isPlaying)
 		{
-			audio.clip = activeSound;
+			audio.clip = moveSound;
 			audio.Play();
 		}
 	}
