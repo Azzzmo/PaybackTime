@@ -6,11 +6,18 @@ public class VehicleHandler : MonoBehaviour {
 	
 	ControlObjHandler COH;
 	List<Transform> charactersIn = new List<Transform>();
-
+	public AudioClip moveSound;
+	public AudioClip idleSound;
+	bool active;
+	Vector3 lastPosition;
+	Vector3 currentPosition;
+	
 	// Use this for initialization
 	void Start () {
 		COH = this.GetComponent<ControlObjHandler>();
 		COH.enabled = false;
+		lastPosition = transform.position;
+		active = false;
 	}
 	
 	// Update is called once per frame
@@ -31,12 +38,19 @@ public class VehicleHandler : MonoBehaviour {
 			
 			charactersIn.Clear();
 		}
+		
+		currentPosition = transform.position;
 	
+		if(currentPosition != lastPosition && active)
+			PlayActiveSound();
+		else if(active)
+			PlayIdleSound();
 	}
 	
 	public void setControlling(bool setting)
 	{
 		COH.enabled = setting;
+		active = setting;
 	}
 	
 	public void setMovable(bool movable)
@@ -49,5 +63,24 @@ public class VehicleHandler : MonoBehaviour {
 		child.parent = this.transform;
 		child.position = new Vector3(0, -100, 0);
 		charactersIn.Add(child);
+	}
+	
+	public void PlayIdleSound()
+	{
+		if(!audio.isPlaying)
+		{
+			audio.clip = idleSound;
+			audio.Play();
+		}
+		
+	}
+	
+	public void PlayActiveSound()
+	{
+		if(!audio.isPlaying)
+		{
+			audio.clip = activeSound;
+			audio.Play();
+		}
 	}
 }
