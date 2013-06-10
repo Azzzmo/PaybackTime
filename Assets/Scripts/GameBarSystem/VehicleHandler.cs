@@ -8,7 +8,7 @@ public class VehicleHandler : MonoBehaviour {
 	List<Transform> charactersIn = new List<Transform>();
 	public AudioClip moveSound;
 	public AudioClip idleSound;
-	bool active;
+
 	Vector3 lastPosition;
 	Vector3 currentPosition;
 	
@@ -17,7 +17,6 @@ public class VehicleHandler : MonoBehaviour {
 		COH = this.GetComponent<ControlObjHandler>();
 		COH.enabled = false;
 		lastPosition = transform.position;
-		active = false;
 	}
 	
 	// Update is called once per frame
@@ -41,16 +40,17 @@ public class VehicleHandler : MonoBehaviour {
 		
 		currentPosition = transform.position;
 	
-		if(currentPosition != lastPosition && active)
+		if(currentPosition != lastPosition)
 			PlayActiveSound();
 		else if(active)
 			PlayIdleSound();
+		
+		lastPosition = transform.position;
 	}
 	
 	public void setControlling(bool setting)
 	{
 		COH.enabled = setting;
-		active = setting;
 	}
 	
 	public void setMovable(bool movable)

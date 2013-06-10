@@ -64,7 +64,7 @@ public class InteractionHandler : MonoBehaviour {
 		MTCO.ownTrans.LookAt(new Vector3(MTCO.ownMoveTo.x, MTCO.ownTrans.position.y, MTCO.ownMoveTo.z));
 		Vector3 moveDirection = MTCO.ownMoveTo - MTCO.ownTrans.position;//this.transform.forward;
 		moveDirection.Normalize();
-		moveDirection *= MTCO.ownCB.maxspeed;
+		//moveDirection *= MTCO.ownCB.maxspeed;
 		
 		if(Vector3.Distance(new Vector3(MTCO.ownMoveTo.x, 0f, MTCO.ownMoveTo.z), new Vector3(MTCO.ownTrans.position.x, 0f, MTCO.ownTrans.position.z)) > MTCO.ownCB.meleeDistance +3)
 		{
