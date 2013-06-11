@@ -108,21 +108,23 @@ public class SelectionBehavior : MonoBehaviour
         if (activeCursorGfx != null)
             GUI.DrawTexture(new Rect(Event.current.mousePosition.x + (activeCursorGfx == mouseCursor[0] ? 0 : CursorPosMod.x), Event.current.mousePosition.y + (activeCursorGfx == mouseCursor[0] ? 0 : CursorPosMod.y), 32, 32), activeCursorGfx);
         
+		/*
         if (targetCastInfo.transform != null)
         {
-            GUI.Label(new Rect(0, 0, Screen.width / 2, 20), "Target: " + targetCastInfo.transform.name);
+            //GUI.Label(new Rect(0, 0, Screen.width / 2, 20), "Target: " + targetCastInfo.transform.name);
         }
 
         if (selectedTarget != null)
         {
-            GUI.color = Color.white;
+            //GUI.color = Color.white;
 
-            GUI.Label(new Rect(0, 20, Screen.width / 2, 20), "Selected: " + selectedTarget.transform.name);
-            GUI.Label(new Rect(0, 40, Screen.width / 2, 20), "Count: " + multiselect_toggle.getCurrentlySelected().Count);
+            //GUI.Label(new Rect(0, 20, Screen.width / 2, 20), "Selected: " + selectedTarget.transform.name);
+            //GUI.Label(new Rect(0, 40, Screen.width / 2, 20), "Count: " + multiselect_toggle.getCurrentlySelected().Count);
         }
 
         if (activeTarget != null)
             GUI.Label(new Rect(0, 60, Screen.width / 2, 20), "Active: " + activeTarget.transform.name);
+            */
     }
 
     void Update()

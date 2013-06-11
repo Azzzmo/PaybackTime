@@ -479,8 +479,14 @@ public class GridGenerator : MonoBehaviour
 	/// <param name="moveToObj">Indicator object.</param>
 	private void InstantiateMoveToIndicator(GridSquare moveSquare, Transform moveToObj)
 	{
-		Object o = Instantiate(moveToObj.gameObject, new Vector3(moveSquare.getGridSquareCentralOrigin().x, 3.2f, moveSquare.getGridSquareCentralOrigin().z), new Quaternion(0f,0f,0f,0f));
-		Destroy(o, 0.5f);
+		try {
+			Object o = Instantiate(moveToObj.gameObject, new Vector3(moveSquare.getGridSquareCentralOrigin().x, 3.2f, moveSquare.getGridSquareCentralOrigin().z), new Quaternion(0f,0f,0f,0f));
+			Destroy(o, 0.5f);
+			
+		} catch (System.Exception ex) {
+			
+		}
+		
 	}
 	
 	/// <summary>
