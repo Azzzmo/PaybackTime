@@ -3,11 +3,15 @@ using System.Collections;
 
 public class EventTrigger : MonoBehaviour {
 	
+	public GameObject guitext;
+	public float timetoshowtext = 10f;
+	private GUIText text;
 
 	// Use this for initialization
 	void Start () 
 	{
-
+		text = guitext.GetComponent<GUIText>();
+		text.text = "You Won!";
 	}
 	
 	// Update is called once per frame
@@ -22,9 +26,17 @@ public class EventTrigger : MonoBehaviour {
 		{
 			if(CB.myType == CharacterType.Caleb)
 			{
-				Debug.Log ("Game Ended");	
+				text.enabled = true;
+				Invoke("ShowMenu", timetoshowtext);
+				
 			}
 		}
+	}
+	
+	void ShowMenu()
+	{
+		text.enabled = false;
+		Application.LoadLevel("MainMenu");
 	}
 	
 }

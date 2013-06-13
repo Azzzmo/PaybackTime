@@ -1,0 +1,72 @@
+fileFormatVersion: 2
+guid: b2ef9a85f6064554fb1d66044664b3e3
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - icon: {instanceID: 0}
+  - background: {fileID: 2800000, guid: 86e327f276414ce46b7bf799901fd168, type: 3}
+  - menuBackground: {fileID: 2800000, guid: bd764dc10b1818148b1be7a58a129983, type: 3}
+  - helpImage: {instanceID: 0}
+  - startButton: {fileID: 2800000, guid: 1fb3197881972664b894ac9dd427618b, type: 3}
+  - helpButton: {instanceID: 0}
+  - creditsButton: {fileID: 2800000, guid: 2ca3b426d4252d640ba858a50b89ab04, type: 3}
+  - wwwButton: {fileID: 2800000, guid: c9435310d208a2042a4b5660ec239375, type: 3}
+  - exitButton: {fileID: 2800000, guid: 371844c6c92bbf04ca9962af8d257adf, type: 3}
+  - backButton: {instanceID: 0}
+  - startButtonPressed: {fileID: 2800000, guid: 32a72781711a812448c6f216b1ad1d4c,
+      type: 3}
+  - helpButtonPressed: {instanceID: 0}
+  - creditsButtonPressed: {fileID: 2800000, guid: 849a6b95fbc4b1a4b85a68e0c92e6c93,
+      type: 3}
+  - wwwButtonPressed: {fileID: 2800000, guid: 3333e6d0ea95ff340809538c3cca5bed, type: 3}
+  - exitButtonPressed: {fileID: 2800000, guid: 4b6b64c630db38d49ad9f1d634f36451, type: 3}
+  - backButtonPressed: {instanceID: 0}
+  - bannerImage: {fileID: 2800000, guid: a2a29d8cb84c7ef4580f0896c14f3178, type: 3}
+  - blackImage: {fileID: 2800000, guid: e0cd4b5f573b4bd44893b3ec5b5fb445, type: 3}
+  - image1: {fileID: 2800000, guid: a2a29d8cb84c7ef4580f0896c14f3178, type: 3}
+  - image2: {fileID: 2800000, guid: bb8f65b83e08d344bbcd5d5cf5eab172, type: 3}
+  - image3: {fileID: 2800000, guid: de118006125993c469293bf29516f3ae, type: 3}
+  - image4: {fileID: 2800000, guid: 088d3c653b1579b42b660c1b98d1cb92, type: 3}
+  - image5: {fileID: 2800000, guid: 3da7ffe90bde3d04a994fbfeb36d7ecf, type: 3}
+  - image6: {fileID: 2800000, guid: 5963226ca46f18b41abc768a177943a2, type: 3}
+  - image7: {fileID: 2800000, guid: b083e2cebaecec648ab6a3985a8e0470, type: 3}
+  - image8: {fileID: 2800000, guid: 3dc1444fc39e30c44a13646bc609aa0a, type: 3}
+  - image9: {fileID: 2800000, guid: 81ef9ca13e190fa46a9ac6c41264e60f, type: 3}
+  - image10: {fileID: 2800000, guid: 6c53b51bcadc26044be6ffe8d1713006, type: 3}
+  - image11: {fileID: 2800000, guid: 459582e2292b5f049be34f0f2fca176d, type: 3}
+  - image12: {fileID: 2800000, guid: 59878ec0c0418694d86b666910ada09f, type: 3}
+  - image13: {fileID: 2800000, guid: e253531df22fcab4da08518ee126bd95, type: 3}
+  - image14: {fileID: 2800000, guid: c8219bcbbe583414ea925cb73f3afcd6, type: 3}
+  - image15: {fileID: 2800000, guid: fb1fb601c14e8e042a9d62be0576dce1, type: 3}
+  - image16: {fileID: 2800000, guid: 3f6c64e1cc54a1b4d839dc97187cd853, type: 3}
+  - image17: {fileID: 2800000, guid: 386143ff69fe623478f696ee51c7e8ef, type: 3}
+  - image18: {fileID: 2800000, guid: 9781a85b349edee4bac53c67c49c4c73, type: 3}
+  - image19: {fileID: 2800000, guid: 586ff051c53809841918845cac9e9ded, type: 3}
+  - image20: {fileID: 2800000, guid: c623d9ecaa3a177459d673867ec57277, type: 3}
+  - image21: {fileID: 2800000, guid: 402b671942e5c8a48be7ad293b7e7bb2, type: 3}
+  - image22: {fileID: 2800000, guid: 0030a74568aaec64fbfa30951a97b365, type: 3}
+  - image23: {fileID: 2800000, guid: 4d645b1ea1e650e47821a5e9b5074a86, type: 3}
+  - image24: {fileID: 2800000, guid: c52bd54d73b825c449636996be72fc79, type: 3}
+  - image25: {fileID: 2800000, guid: d3a470766614c01419d1ed8b4fbdc53f, type: 3}
+  - image26: {fileID: 2800000, guid: baae9733200fba24f8e1eb71b90d673e, type: 3}
+  - image27: {fileID: 2800000, guid: 6b1858b26ab90714e9bf39ff203d4d34, type: 3}
+  - image28: {fileID: 2800000, guid: 53df9338a118af8478d0f2bee113cd26, type: 3}
+  - image29: {fileID: 2800000, guid: d5dafefda3e7b6646a4b195b4e04ba83, type: 3}
+  - image30: {fileID: 2800000, guid: 4cd806a761be8b440bf30ab6354f1b64, type: 3}
+  - image31: {fileID: 2800000, guid: 4ee80ba44d7d69f4ab9107832a88d346, type: 3}
+  - image32: {fileID: 2800000, guid: 8cca0c1e573508b4f8924ccaaa859b0f, type: 3}
+  - image33: {fileID: 2800000, guid: da85e25424ab4f343befd9f8cb80181a, type: 3}
+  - image34: {fileID: 2800000, guid: f499463ad12ceb0419020e88f35f4f52, type: 3}
+  - image35: {fileID: 2800000, guid: d5df417472268154dba32452b15e3e46, type: 3}
+  - image36: {fileID: 2800000, guid: b5605ea4f817f0544921e1267f07be52, type: 3}
+  - image37: {fileID: 2800000, guid: fc713a76df5d08d4591f71c09a9ba1d9, type: 3}
+  - image38: {fileID: 2800000, guid: d0c60629024d40747a21961e9789aeda, type: 3}
+  - image39: {fileID: 2800000, guid: 88e86ed4582c21c4ca0cff5b918cca59, type: 3}
+  - image40: {fileID: 2800000, guid: 86e327f276414ce46b7bf799901fd168, type: 3}
+  - creditsTextImageRed: {fileID: 2800000, guid: 19a7245ba2d4faa4187c1e46bfd65d85,
+      type: 3}
+  - clickSound: {instanceID: 0}
+  - image: {fileID: 2800000, guid: a2a29d8cb84c7ef4580f0896c14f3178, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 

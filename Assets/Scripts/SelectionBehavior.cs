@@ -64,6 +64,8 @@ public class SelectionBehavior : MonoBehaviour
     /// The Material that is used for Coloring the Multi Selection Mouse Drag Box.
     /// </summary>
     public Material MultiSelectMaterial = null;
+	
+
 
     void Start()
     {

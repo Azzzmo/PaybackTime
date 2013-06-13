@@ -122,6 +122,8 @@ public class CharacterBase : MonoBehaviour {
 		//set current tranform location to trackers. If object is moved in RTS mode, the value changes, and default walk animation is played
 		previous_control_x = transform.position.x;
 		previous_control_z = transform.position.z;
+		
+		
 	}
 	
 	// Update is called once per frame
