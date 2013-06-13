@@ -99,6 +99,12 @@ public class CharacterBase : MonoBehaviour {
 		
 		//movement and position
 		moveDirection = Vector3.zero;
+		
+		//disable character controller at start, if it exists
+		if(GetComponentInChildren<CharacterController>() != null && myType != CharacterType.Nazi)
+		{
+			this.GetComponentInChildren<CharacterController>().enabled = false;
+		}
 
 		//sounds script
 		sounds = GetComponentInChildren<CharacterSounds>();

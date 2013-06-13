@@ -284,12 +284,22 @@ public class CamMovementBehavior : MonoBehaviour
 			//Finds the 3rd person camera of the selected character.
 			Transform cam = selected.FindChild("Character Camera");
 			
+			//Finds the character controller, rigidbody and capsule collider of the character: Jami
+			CharacterController cc = selected.GetComponentInChildren<CharacterController>();
+			Rigidbody rb = selected.GetComponentInChildren<Rigidbody>();
+			CapsuleCollider cCollider = selected.GetComponentInChildren<CapsuleCollider>();
+			CharacterMotor cmotor = selected.GetComponentInChildren<CharacterMotor>();
+			
 			//Not already in 3rd person view.
-			if(!follow_toggle && cam != null)
+			if(!follow_toggle && cam != null && cc !=null && cCollider != null && rb != null && cmotor != null) //: Jami
 			{	
 				//Activate the 3rd person camera and the controlls.
 				cam.gameObject.SetActive(true);
 				selected.gameObject.GetComponent<MouseLook>().enabled = true;
+				cc.enabled = true;
+				cCollider.enabled = false;
+				rb.isKinematic = true;
+				cmotor.enabled = true;
 				//selected.gameObject.GetComponent<FPSInputController>().enabled = true;
 				//selected.gameObject.GetComponent<CharacterMotor>().canControl = true;
 				
@@ -297,10 +307,16 @@ public class CamMovementBehavior : MonoBehaviour
 			}
 			
 			//The opposite thing.
-			else if(follow_toggle && cam != null)
+			else if(follow_toggle && cam != null && cc !=null && cCollider != null && rb != null && cmotor != null)
 			{
 				cam.gameObject.SetActive(false);
 				selected.gameObject.GetComponent<MouseLook>().enabled = false;
+				cc.enabled = false;
+				cCollider.enabled = true;
+				rb.isKinematic = false;
+				cmotor.enabled = false;
+				
+				
 				//selected.gameObject.GetComponent<FPSInputController>().enabled = false;
 				//selected.gameObject.GetComponent<CharacterMotor>().canControl = false;
 				
