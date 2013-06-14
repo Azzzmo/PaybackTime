@@ -967,10 +967,8 @@ public class GridGenerator : MonoBehaviour
 					GridSquare nearby = DeterminedValidAdjacent(newRow, newCol);
                     if (nearby != null)
 					{
-						count++;
-						
-						if(count % 2 == 0)
-                    		nearbySquares.Add(nearby);
+						count++;						
+                    	nearbySquares.Add(nearby);
 					}
 				}
 				
@@ -986,9 +984,7 @@ public class GridGenerator : MonoBehaviour
 					GridSquare nearby = DeterminedValidAdjacent(newRow, newCol);
                     {
 						count++;
-						
-						if(count % 2 == 0)
-                    		nearbySquares.Add(nearby);
+                    	nearbySquares.Add(nearby);
 					}
 				}
 				
