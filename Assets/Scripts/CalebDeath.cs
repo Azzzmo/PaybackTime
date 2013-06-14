@@ -4,14 +4,16 @@ using System.Collections;
 public class CalebDeath : MonoBehaviour {
 	
 	private CharacterBase CalebCB;
-	public GameObject guitext;
+	private GameObject guitext;
 	public float timetoshowtext = 10f;
 	private GUIText text;
 
 		
 	// Use this for initialization
 	void Start () {
+		guitext = GameObject.Find("GUI Text");
 		text = guitext.GetComponent<GUIText>();
+		
 		text.text = "Caleb Died! Game Over...";
 		CalebCB = GetComponentInChildren<CharacterBase>();
 	}
