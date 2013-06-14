@@ -30,8 +30,10 @@ public class VehicleHandler : MonoBehaviour {
 			
 			foreach(Transform tr in charactersIn)
 			{
+				tr.parent = null;
+				
 				tr.position = new Vector3(i,0,i) + this.transform.position;
-				tr.parent = null;	
+					
 				i += 2;
 			}
 			
