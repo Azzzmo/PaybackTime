@@ -24,6 +24,7 @@ public class CalebDeath : MonoBehaviour {
 			timetoshowtext -= Time.deltaTime;
 			if(timetoshowtext > 0f)
 			{
+				text.text = "Caleb Died! Game Over...";
 				text.enabled = true;
 			}
 			else

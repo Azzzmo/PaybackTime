@@ -26,6 +26,7 @@ public class EventTrigger : MonoBehaviour {
 		{
 			if(CB.myType == CharacterType.Caleb)
 			{
+				text.text = "You Won!";
 				text.enabled = true;
 				Invoke("ShowMenu", timetoshowtext);
 				
