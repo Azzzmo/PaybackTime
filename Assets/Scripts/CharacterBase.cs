@@ -337,7 +337,7 @@ public class CharacterBase : MonoBehaviour {
 			case AnimState.Attack: 
 				if(stateChangeTimer <= 0)
 				{
-					if(myType == CharacterType.StrongZombi) sounds.PlayAttackClip();
+					if(sounds != null) sounds.PlayAttackClip();
 					theanimation.CrossFade("attack");
 					theanimation["attack"].speed = attackAnimationSpeed;
 	 				stateChangeTimer = theanimation["attack"].length / attackAnimationSpeed;

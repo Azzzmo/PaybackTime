@@ -6,11 +6,12 @@ public class GuideText : MonoBehaviour {
 	public string text = "Write here";
 	private bool isShown = false;
 	public GUIText opaste;
+	OpasteTekstit opasteet;
 
 	// Use this for initialization
 	void Start () 
 	{
-
+		opasteet = opaste.GetComponentInChildren<OpasteTekstit>();
 	}
 	
 	// Update is called once per frame
@@ -24,8 +25,10 @@ public class GuideText : MonoBehaviour {
 		{
 			isShown = true;
 			
-			opaste.text = text;
+			//opaste.text = text;
+			opaste.text = opasteet.GetText(text);
 			opaste.enabled = true;
+			Debug.Log (opaste.text);
 			
 			Invoke("StopMessage", 5f);
 		}
