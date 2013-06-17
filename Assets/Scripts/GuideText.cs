@@ -5,14 +5,12 @@ public class GuideText : MonoBehaviour {
 	
 	public string text = "Write here";
 	private bool isShown = false;
-	private GUIText gtext;
+	public GUIText opaste;
 
 	// Use this for initialization
 	void Start () 
 	{
-		gtext = transform.FindChild("GUI Text").GetComponent<GUIText>();
-		gtext.text = text;
-		gtext.gameObject.SetActive(false);
+
 	}
 	
 	// Update is called once per frame
@@ -24,15 +22,17 @@ public class GuideText : MonoBehaviour {
 	{
 		if(col.transform.tag == "Player" && !isShown)
 		{
-			print (text);
 			isShown = true;
-			gtext.gameObject.SetActive(true);
+			
+			opaste.text = text;
+			opaste.enabled = true;
+			
 			Invoke("StopMessage", 5f);
 		}
 	}
 	
 	void StopMessage()
-	{
-		gtext.gameObject.active = false;	
+	{		
+		opaste.enabled = false;
 	}
 }
