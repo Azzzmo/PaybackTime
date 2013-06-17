@@ -7,6 +7,7 @@ public class Enemy :  Actor
 {
 	CharacterBase CB;
 	CharacterBase target_CB;
+	public bool inCombat = false;
 	
 	public const bool DEBUG_ENEMY  			= false;
 	
@@ -313,6 +314,8 @@ public class Enemy :  Actor
 		{
 			////////////////////////////////
 			case STATE_IDLE:
+			
+				inCombat = false;
 				if (m_iterator == 1)
 				{
 					UpdateWaypoints();
@@ -364,6 +367,8 @@ public class Enemy :  Actor
 
 			////////////////////////////////
 			case STATE_WAYPOINTS:
+			
+				inCombat = false;
 				if (m_iterator==1)
 				{
 					if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_WAYPOINTS::m_waypoints="+m_waypoints.Count);
@@ -423,6 +428,8 @@ public class Enemy :  Actor
 
 			////////////////////////////////
 			case STATE_WAYPOINTS_PATHFINDING:	
+			
+				inCombat = false;
 				if (m_iterator==1)
 				{
 					if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_WAYPOINTS::m_waypoints="+m_waypoints.Count);
@@ -493,6 +500,8 @@ public class Enemy :  Actor
 
 			////////////////////////////////
 			case STATE_FOLLOW_PLAYER:	
+			
+				inCombat = true;
 				if (m_iterator==1)
 				{
 					if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_FOLLOW_PLAYER!!!!!!!!!!!!!");
@@ -563,6 +572,8 @@ public class Enemy :  Actor
 			
 			////////////////////////////////
 			case STATE_FOLLOW_PLAYER_PATHFINDING:	
+			
+				inCombat = true;
 				if (m_iterator==1)
 				{
 					if (DEBUG_ENEMY) Debug.Log("Enemy::Update::STATE_FOLLOW_PLAYER_PATHFINDING!!!!!!!!!!!!!");
@@ -646,6 +657,8 @@ public class Enemy :  Actor
 			
 			////////////////////////////////
 			case STATE_SHOOT_PLAYER:
+			
+				inCombat = true;
 				// TIMEOUT TO SHOOT
 			
 				m_timeAcum += Time.deltaTime;
@@ -699,11 +712,13 @@ public class Enemy :  Actor
 
 			//////////////////////////////
 			case STATE_DIE:
+				inCombat = false;
 				ChangeState(STATE_END);				
 				break;
 
 			//////////////////////////////
 			case STATE_END:
+				inCombat = false;
 				if (m_iterator==1)
 				{
 					Destroy();

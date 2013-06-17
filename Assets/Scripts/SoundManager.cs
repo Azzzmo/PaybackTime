@@ -6,14 +6,18 @@ public class SoundManager : MonoBehaviour {
 	
 	//public CharacterSounds[] CharacterAudioSources;
 	private List<SoundObject> soundObjects = new List<SoundObject>();
+	private List<SoundObject> enemySOs = new List<SoundObject>();
+	private List<SoundObject> SOsInCombat = new List<SoundObject>(); 
+	
+	private Transform Caleb;
 	
 	public Transform musicSource;
 	public AudioClip[] gameMusic;
 
 	private AudioClip previousMusic;
 	
-	public int minWaitTimeBetweenClips = 0;
-	public int maxWaitTimeBetweenClips = 10;
+	public int minWaitTimeBetweenClips = 5;
+	public int maxWaitTimeBetweenClips = 60;
 
 	// Use this for initialization
 	void Start () 
@@ -29,7 +33,10 @@ public class SoundManager : MonoBehaviour {
 			CharacterBase CB = go.GetComponent<CharacterBase>();
 			if(CS != null)
 			{
-				soundObjects.Add(new SoundObject(CB.isAlive, CS, CB.myTargetsList));
+				if(CB.myType == CharacterType.Caleb)
+					Caleb = go.transform;
+				else
+					soundObjects.Add(new SoundObject(CB, CS));
 			}
 		}
 		
@@ -37,9 +44,10 @@ public class SoundManager : MonoBehaviour {
 		{
 			CharacterSounds CS = ko.GetComponent<CharacterSounds>();
 			CharacterBase CB = ko.GetComponent<CharacterBase>();
+			Enemy eai = ko.GetComponent<Enemy>();
 			if(ko.GetComponent<CharacterSounds>() != null)
 			{
-				soundObjects.Add(new SoundObject(CB.isAlive, CS, CB.myTargetsList));
+				enemySOs.Add(new SoundObject(CB, CS, eai));
 			}
 		}
 		
@@ -69,7 +77,7 @@ public class SoundManager : MonoBehaviour {
 		
 		
 		foreach(SoundObject so in soundObjects)
-		{			
+		{				
 			if(so.targets.Count == 0 && so.life)
 			{
 				if(so.sounds != null && !so.sounds.audio.isPlaying && !so.sounds.waitingToPlay)
@@ -85,18 +93,34 @@ public class SoundManager : MonoBehaviour {
 				{
 					so.sounds.waitingToPlay = true;
 					so.sounds.Invoke("PlayCombatClip", Random.Range(minWaitTimeBetweenClips, maxWaitTimeBetweenClips));
+					SOsInCombat.Add(so);
 				}
 			}
-			
-			
-			
-			/*
-			if(tr != null && !tr.audio.isPlaying && !tr.waitingToPlay)
-			{
-				tr.waitingToPlay = true;
-				tr.Invoke("PlayIdleClip", Random.Range(0, 10));	
-			}*/
 				
+		}
+		
+		foreach(SoundObject esso in enemySOs)
+		{
+			print(esso.eScript.m_type);
+			if(esso.eScript.inCombat)
+			{
+
+				esso.sounds.waitingToPlay = true;
+				esso.sounds.Invoke("PlayCombatClip", Random.Range(minWaitTimeBetweenClips, maxWaitTimeBetweenClips));
+			}
+			else
+			{
+
+				esso.sounds.waitingToPlay = true;
+				esso.sounds.Invoke("PlayIdleClip", Random.Range(minWaitTimeBetweenClips, maxWaitTimeBetweenClips));
+			}
+		}
+		
+		if(SOsInCombat.Count > 0)
+		{
+			Caleb.GetComponent<CharacterSounds>().waitingToPlay = true;
+			Caleb.GetComponent<CharacterSounds>().Invoke("PlayCombatClip", Random.Range(minWaitTimeBetweenClips, maxWaitTimeBetweenClips));
+			SOsInCombat.Clear();
 		}
 		
 	}
@@ -107,12 +131,21 @@ public class SoundObject
 	public bool life;
 	public CharacterSounds sounds;
 	public List<Transform> targets;
+	public Enemy eScript;
 	
-	public SoundObject(bool isAlive, CharacterSounds CS, List<Transform> sTargets)
+	public SoundObject(CharacterBase CB, CharacterSounds CS)
 	{
-		life = isAlive;
+		life = CB.isAlive;
 		sounds = CS;
-		targets = sTargets;
+		targets = CB.myTargetsList;
+		eScript = null;
 	}
 	
+	public SoundObject(CharacterBase CB, CharacterSounds CS, Enemy EScript)
+	{
+		life = CB.isAlive;
+		sounds = CS;
+		targets = CB.myTargetsList;
+		eScript = EScript;
+	}
 }
