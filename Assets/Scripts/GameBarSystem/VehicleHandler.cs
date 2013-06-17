@@ -11,6 +11,7 @@ public class VehicleHandler : MonoBehaviour {
 
 	Vector3 lastPosition;
 	Vector3 currentPosition;
+	public bool calebIn = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -38,6 +39,7 @@ public class VehicleHandler : MonoBehaviour {
 			}
 			
 			charactersIn.Clear();
+			calebIn = false;
 		}
 		
 		currentPosition = transform.position;
@@ -65,6 +67,13 @@ public class VehicleHandler : MonoBehaviour {
 		child.parent = this.transform;
 		child.position = new Vector3(0, -100, 0);
 		charactersIn.Add(child);
+		
+		CharacterBase CB = child.GetComponent<CharacterBase>();
+		
+		if(CB.myType == CharacterType.Caleb)
+		{
+			calebIn = true;	
+		}
 	}
 	
 	public void PlayIdleSound()
@@ -85,4 +94,5 @@ public class VehicleHandler : MonoBehaviour {
 			audio.Play();
 		}
 	}
+	
 }

@@ -21,16 +21,23 @@ public class EventTrigger : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col)
 	{
-		CharacterBase CB = col.gameObject.GetComponentInChildren<CharacterBase>();
-		if(CB != null)
+		print (col.transform.name);
+		
+		if(col.transform.name == "NZ_kubelwagen_final")
 		{
-			if(CB.myType == CharacterType.Caleb)
+			print ("auto paikalla");
+			
+			VehicleHandler VH = col.transform.parent.GetComponent<VehicleHandler>();
+			
+			if(VH.calebIn)
 			{
+				print ("pitäs olla voitettu");
+				
 				text.text = "You Won!";
 				text.enabled = true;
 				Invoke("ShowMenu", timetoshowtext);
-				
 			}
+
 		}
 	}
 	
