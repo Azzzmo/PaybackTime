@@ -102,13 +102,13 @@ public class SoundManager : MonoBehaviour {
 		foreach(SoundObject esso in enemySOs)
 		{
 			print(esso.eScript.m_type);
-			if(esso.eScript.inCombat)
+			if(esso.eScript.inCombat && !esso.sounds.waitingToPlay)
 			{
 
 				esso.sounds.waitingToPlay = true;
 				esso.sounds.Invoke("PlayCombatClip", Random.Range(minWaitTimeBetweenClips, maxWaitTimeBetweenClips));
 			}
-			else
+			else if(!esso.sounds.waitingToPlay)
 			{
 
 				esso.sounds.waitingToPlay = true;
