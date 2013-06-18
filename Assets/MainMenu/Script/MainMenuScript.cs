@@ -429,7 +429,8 @@ public class MainMenuScript : MonoBehaviour {
 			if(startButtonRect.Contains(getTransMousePosition() )){
 			//if(startButtonRect.Contains(Input.mousePosition)){  //(0,0) coordinate in left down corner
 				startingGame = true;	//TODO need to check if this is needed -> here or more probably in game scene script
-				Application.LoadLevel("Level1");
+				//Application.LoadLevel("Level1");
+				TransitionManager.Instance.LoadScene("Level1", false);
 					 			
 			 	// In the game play, if the player wants to quit the game and return to MainMenu (not tested)
 				//if (Input.GetKey("escape")){ 
