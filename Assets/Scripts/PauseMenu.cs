@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
  
 public class PauseMenu : MonoBehaviour
 {
@@ -290,7 +291,14 @@ public class PauseMenu : MonoBehaviour
  
 	    }
 		if (GUILayout.Button ("Menu")) {
-	        Application.LoadLevel("MainMenu");
+			GameObject[] CBList = GameObject.FindGameObjectsWithTag("Player");
+			
+			foreach(GameObject go in CBList)
+			{
+				go.GetComponent<CharacterBase>().GetHit(1000);	
+			}
+			UnPauseGame();
+	        //Application.LoadLevel("MainMenu");
 	    }
 	    if (GUILayout.Button ("Options")) {
 	        currentPage = Page.Options;
